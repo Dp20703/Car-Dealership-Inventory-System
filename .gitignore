@@ -41,5 +41,5 @@ Thumbs.db
 *.bak
 
 # Documentation
-*.md
+PROMPTS.md
 backend/src/models/Purchase.js
