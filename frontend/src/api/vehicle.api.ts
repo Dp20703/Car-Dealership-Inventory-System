@@ -40,5 +40,6 @@ export const restockVehicle = async (id: string, quantity: number) => {
 // Purchase a vehicle (User accessible)
 export const purchaseVehicle = async (id: string) => {
   const { data } = await api.post(`/vehicles/${id}/purchase`);
-  return data;
+  console.log("Purcase data:", data);
+  return data.data;
 };
