@@ -1,3 +1,4 @@
+import User from "../models/User.js";
 import * as authService from "../services/auth.service.js";
 
 export const register = async (req, res) => {
@@ -37,7 +38,7 @@ export const login = async (req, res) => {
         name: user.name,
         email: user.email,
         role: user.role,
-        token, // The frontend will need this token for protected routes!
+        token,
       },
     });
   } catch (error) {
@@ -47,4 +48,18 @@ export const login = async (req, res) => {
     }
     res.status(500).json({ success: false, message: "Server Error" });
   }
+};
+
+export const getMe = async (req, res) => {
+  try {
+    // req.user is populated by the 'protect' middleware
+    const user = await User.findById(req.user.id).select("-password");
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Server Error" });
+  }
+};
+
+export const logout = (req, res) => {
+  res.status(200).json({ success: true, message: "Logged out successfully" });
 };
