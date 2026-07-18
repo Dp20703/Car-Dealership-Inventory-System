@@ -1,4 +1,5 @@
 import { jest } from "@jest/globals";
+import bcrypt from "bcrypt";
 import request from "supertest";
 import app from "../../src/app.js";
 import User from "../../src/models/User.js";
@@ -50,25 +51,25 @@ describe("Auth API Endpoints", () => {
 
 describe("POST /api/auth/login", () => {
   it("should return 200 and a token on successful login", async () => {
-    // 1. Arrange: Intercept the database call to return a mock user
+    // 1. Arrange: Generate a REAL hash for our mock user so we don't have to mock bcrypt
+    const salt = await bcrypt.genSalt(10);
+    const realHashedPassword = await bcrypt.hash("password123", salt);
+
     const mockUser = {
       _id: "mockId123",
       name: "Test User",
       email: "test@dealership.com",
-      password: "hashedPassword123", // In a real flow, bcrypt would check this
+      password: realHashedPassword,
       role: "USER",
     };
+
+    // Intercept the database call to return our user with the valid hash
     User.findOne = jest.fn().mockResolvedValue(mockUser);
 
-    // We must also mock bcrypt.compare for the integration test
-    // so it doesn't try to actually compare our fake hash
-    const bcrypt = await import("bcrypt");
-    bcrypt.compare = jest.fn().mockResolvedValue(true);
-
-    // 2. Act: Send the login request
+    // 2. Act: Send the login request with the plain-text password
     const response = await request(app).post("/api/auth/login").send({
       email: "test@dealership.com",
-      password: "password123",
+      password: "password123", // bcrypt will successfully compare this to realHashedPassword!
     });
 
     // 3. Assert: Verify the response
