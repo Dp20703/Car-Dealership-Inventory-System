@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useEffect, useState } from "react";
+import { createContext, type ReactNode, useEffect, useState } from "react";
 import { loginUser, registerUser } from "../api/auth.api";
 import api from "../api/axios";
 
@@ -66,6 +66,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }) => {
     try {
       setIsLoading(true);
+      console.log("contex res:", userData);
       await registerUser(userData);
     } catch (error) {
       throw error;

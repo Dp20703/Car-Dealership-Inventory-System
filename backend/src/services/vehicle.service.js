@@ -1,4 +1,4 @@
-import Vehicle from "../models/Vehicle";
+import Vehicle from "../models/Vehicle.js";
 
 export const addVehicle = async (vehicleData) => {
   // 1. Create a new vehicle instance based on the provided data

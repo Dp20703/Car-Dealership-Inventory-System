@@ -15,9 +15,13 @@
   #root {
     @apply min-h-screen;
   }
+
   body {
-    @apply bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark font-sans antialiased;
+    @apply bg-background-light dark:bg-background-dark 
+           text-text-light dark:text-text-dark 
+           font-sans antialiased;
   }
+
   a {
     @apply no-underline text-inherit;
   }
@@ -39,6 +43,7 @@
   .ls-card {
     @apply bg-card-light dark:bg-card-dark border border-border-light dark:border-border-dark rounded-2xl shadow-soft;
   }
+
   .ls-btn {
     @apply inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200;
   }

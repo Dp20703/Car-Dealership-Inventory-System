@@ -15,7 +15,8 @@ export const Register = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await register(formData);
+      console.log("formData res:", formData);
+    await register(formData);
       toast.success("Registration successful! Please login.");
       navigate("/login");
     } catch (error) {

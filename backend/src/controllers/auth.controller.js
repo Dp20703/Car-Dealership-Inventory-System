@@ -3,6 +3,7 @@ import * as authService from "../services/auth.service.js";
 
 export const register = async (req, res) => {
   try {
+    console.log("req.body of res:", req.body);
     // Pass the request body to our tested service layer
     const { user } = await authService.registerUser(req.body);
 
@@ -15,6 +16,7 @@ export const register = async (req, res) => {
         email: user.email,
         role: user.role,
       },
+      message: "User Registered Successfully",
     });
   } catch (error) {
     // Handle specific business logic errors (like duplicate emails)
@@ -40,6 +42,7 @@ export const login = async (req, res) => {
         role: user.role,
         token,
       },
+      message: "Login Successfully!",
     });
   } catch (error) {
     // Catch our generic "Invalid credentials" error for security
