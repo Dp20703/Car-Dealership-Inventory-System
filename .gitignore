@@ -2,20 +2,43 @@
 
 # Dependencies
 node_modules/
+pnpm-lock.yaml
+package-lock.json
+yarn.lock
 npm-debug.log*
 yarn-error.log*
 
 # Environment Variables
 .env
-.env.local
+.env.*
 
-# Testing and Coverage
+# Build output
+dist/
+build/
 coverage/
 .nyc_output/
+
+# Logs
+logs/
+*.log
 
 # OS Files
 .DS_Store
 Thumbs.db
 
+# IDE / Editor
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# Misc
+*.tmp
+*.temp
+*.swp
+*.bak
+
+# Documentation
 *.md
-client

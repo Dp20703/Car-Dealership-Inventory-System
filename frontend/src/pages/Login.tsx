@@ -23,13 +23,13 @@ export const Login = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
-      <div className="ls-card w-full max-w-md p-8">
+      <div className="tw-card w-full max-w-md p-8">
         <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="ls-label">Email</label>
+            <label className="tw-label">Email</label>
             <input
-              className="ls-input"
+              className="tw-input"
               type="email"
               onChange={(e) =>
                 setFormData({ ...formData, email: e.target.value })
@@ -38,9 +38,9 @@ export const Login = () => {
             />
           </div>
           <div>
-            <label className="ls-label">Password</label>
+            <label className="tw-label">Password</label>
             <input
-              className="ls-input"
+              className="tw-input"
               type="password"
               onChange={(e) =>
                 setFormData({ ...formData, password: e.target.value })
@@ -48,7 +48,7 @@ export const Login = () => {
               required
             />
           </div>
-          <button type="submit" className="ls-btn-primary w-full mt-4">
+          <button type="submit" className="tw-btn-primary w-full mt-4">
             Login
           </button>
         </form>

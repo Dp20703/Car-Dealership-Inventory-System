@@ -7,8 +7,8 @@ export const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
   console.log("user:", user);
   if (isLoading)
     return (
-      <div className="ls-loader-screen">
-        <div className="ls-spinner"></div>
+      <div className="tw-loader-screen">
+        <div className="tw-spinner"></div>
       </div>
     );
   if (!user) return <Navigate to="/login" />;

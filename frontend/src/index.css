@@ -10,66 +10,634 @@
   *::after {
     @apply box-border;
   }
+
   html,
   body,
   #root {
     @apply min-h-screen;
   }
 
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
-    @apply bg-background-light dark:bg-background-dark 
-           text-text-light dark:text-text-dark 
-           font-sans antialiased;
+    @apply bg-background-light
+           dark:bg-background-dark
+           text-text-light
+           dark:text-text-dark
+           font-sans
+           antialiased;
   }
 
   a {
     @apply no-underline text-inherit;
   }
+
+  img {
+    @apply max-w-full block;
+  }
+
   button {
     @apply cursor-pointer;
   }
+
+  input,
+  textarea,
+  select,
+  button {
+    @apply font-sans;
+  }
+
+  textarea {
+    resize: none;
+  }
+
+  /* Scrollbar */
 
   ::-webkit-scrollbar {
     width: 5px;
     height: 5px;
   }
+
+  ::-webkit-scrollbar-track {
+    background: #111827;
+  }
+
   ::-webkit-scrollbar-thumb {
-    @apply bg-slate-600 rounded-full;
+    background: #334155;
+    border-radius: 999px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #475569;
+  }
+
+  /* Selection */
+
+  ::selection {
+    background: #4f46e5;
+    color: white;
+  }
+
+  /* Focus Ring */
+
+  :focus-visible {
+    outline: 2px solid #4f46e5;
+    outline-offset: 2px;
+  }
+
+  /* Remove mobile tap highlight */
+
+  * {
+    -webkit-tap-highlight-color: transparent;
   }
 }
+
+/* ──────────────────────────────────────────────────────────
+   Components Layer
+────────────────────────────────────────────────────────── */
 
 @layer components {
-  /* Layout & Cards */
-  .ls-card {
-    @apply bg-card-light dark:bg-card-dark border border-border-light dark:border-border-dark rounded-2xl shadow-soft;
+  /* ── Layout ─────────────────────────────────────────── */
+
+  .tw-page {
+    @apply min-h-screen
+           bg-background-light
+           dark:bg-background-dark
+           text-text-light 
+           dark:text-text-dark;
   }
 
-  .ls-btn {
-    @apply inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200;
-  }
-  .ls-btn-primary {
-    @apply ls-btn bg-primary hover:bg-primary-dark text-white;
+  .tw-container {
+    @apply max-w-7xl mx-auto px-4;
   }
 
-  /* Inputs */
-  .ls-input {
-    @apply w-full h-11 px-4 rounded-xl border border-border-light dark:border-border-dark bg-white dark:bg-slate-900 text-text-light dark:text-text-dark focus:ring-2 focus:ring-primary outline-none transition-all;
+  .tw-section {
+    @apply py-16;
   }
 
-  /* Badges */
-  .ls-badge {
-    @apply inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold tracking-wide;
+  .tw-section-title {
+    @apply text-3xl md:text-4xl
+           font-bold
+           text-text-light
+           dark:text-text-dark;
   }
-  .ls-badge-primary {
-    @apply ls-badge bg-primary/10 text-primary;
+
+  .tw-section-subtitle {
+    @apply mt-3
+           text-text-muted
+           dark:text-text-darkMuted;
+  }
+
+  /* ── Cards ─────────────────────────────────────────── */
+
+  .tw-card {
+    @apply bg-card-light
+           dark:bg-card-dark
+           border
+           border-border-light
+           dark:border-border-dark
+           rounded-2xl
+           shadow-soft;
+  }
+
+  .tw-card-hover {
+    @apply transition-all duration-300
+           hover:-translate-y-1
+           hover:shadow-lg;
+  }
+
+  /* ── Sidebars ─────────────────────────────────────────── */
+
+  .tw-sidebar-title {
+    @apply text-lg font-semibold text-text-light dark:text-text-dark mb-6;
+  }
+
+  .tw-sidebar {
+    @apply tw-card
+         p-6
+         h-fit
+         lg:sticky
+         lg:top-24;
+  }
+
+  .tw-sidebar-link {
+    @apply flex
+         items-center
+         gap-3
+         px-4
+         py-3
+         rounded-xl
+         text-sm
+         font-medium
+         transition-all
+         duration-200
+         text-text-muted
+         dark:text-text-darkMuted
+         hover:bg-surface-light
+         dark:hover:bg-surface-dark
+         hover:text-primary
+         dark:hover:text-primary;
+  }
+
+  .tw-sidebar-link.active {
+    @apply bg-primary text-white hover:bg-primary hover:text-white;
+  }
+
+  /* ── Buttons ───────────────────────────────────────── */
+
+  .tw-btn {
+    @apply inline-flex
+           items-center
+           justify-center
+           gap-2
+           px-4
+           py-2
+           rounded-xl
+           text-sm
+           font-medium
+           transition-all
+           duration-200;
+  }
+
+  .tw-btn-primary {
+    @apply tw-btn
+           bg-primary
+           hover:bg-primary-dark
+           text-white;
+  }
+
+  .tw-btn-secondary {
+    @apply tw-btn
+           bg-slate-100
+           hover:bg-slate-200
+           dark:bg-slate-800
+           dark:hover:bg-slate-700
+           text-text-light
+           dark:text-text-dark;
+  }
+
+  .tw-btn-outline {
+    @apply tw-btn
+           border
+           border-border-light
+           dark:border-border-dark
+           hover:bg-slate-100
+           dark:hover:bg-slate-800;
+  }
+
+  .tw-btn-danger {
+    @apply tw-btn
+           bg-red-500
+           hover:bg-red-600
+           text-white;
+  }
+
+  .tw-btn-success {
+    @apply tw-btn
+           bg-green-500
+           hover:bg-green-600
+           text-white;
+  }
+
+  /* ── Inputs ────────────────────────────────────────── */
+
+  .tw-label {
+    @apply block
+           mb-2
+           text-sm
+           font-medium
+           text-text-light
+           dark:text-text-dark;
+  }
+
+  .tw-input {
+    @apply w-full
+           h-11
+           px-4
+           rounded-xl
+           border
+           border-border-light
+           dark:border-border-dark
+           bg-white
+           dark:bg-slate-900
+           text-text-light
+           dark:text-text-dark
+           placeholder:text-text-muted
+           dark:placeholder:text-text-darkMuted
+           focus:outline-none
+           focus:ring-2
+           focus:ring-primary
+           transition-all;
+  }
+
+  .tw-textarea {
+    @apply tw-input
+           h-32
+           py-3;
+  }
+
+  .tw-select {
+    @apply tw-input
+           appearance-none;
+  }
+
+  /* ── Navbar ────────────────────────────────────────── */
+
+  .tw-navbar {
+    @apply sticky
+           top-0
+           z-50
+           border-b
+           border-border-light
+           dark:border-border-dark
+           bg-white/80
+           dark:bg-slate-900/80
+           backdrop-blur-md;
+  }
+
+  .tw-navbar-inner {
+    @apply h-16
+           flex
+           items-center
+           justify-between
+           max-w-7xl
+           mx-auto
+           px-4;
+  }
+
+  .tw-nav-links {
+    @apply flex
+           items-center
+           gap-5;
+  }
+
+  .tw-nav-link {
+    @apply text-sm
+           font-medium
+           text-text-muted
+           dark:text-text-darkMuted
+           transition-colors
+           hover:text-primary;
+  }
+
+  .tw-nav-link.active {
+    @apply text-primary;
+  }
+
+  /* ── Property Cards ────────────────────────────────── */
+
+  .tw-property-image {
+    @apply w-full
+           h-64
+           object-cover
+           rounded-t-2xl;
+  }
+
+  .tw-property-body {
+    @apply p-5;
+  }
+
+  .tw-property-title {
+    @apply text-xl
+           font-semibold
+           text-text-light
+           dark:text-text-dark;
+  }
+
+  .tw-property-location {
+    @apply mt-2
+           text-sm
+           text-text-muted
+           dark:text-text-darkMuted;
+  }
+
+  .tw-property-price {
+    @apply mt-4
+           text-2xl
+           font-bold
+           text-primary;
+  }
+
+  /* ── Base Badge ─────────────────────────────────────────── */
+
+  .tw-badge {
+    @apply inline-flex
+         items-center
+         gap-1
+         px-3
+         py-1
+         rounded-full
+         text-xs
+         font-semibold
+         tracking-wide;
+  }
+
+  /* ── Primary ─────────────────────────────────────────── */
+
+  .tw-badge-primary {
+    @apply tw-badge
+         bg-primary/10
+         text-primary;
+  }
+
+  /* ── Secondary ───────────────────────────────────────── */
+
+  .tw-badge-secondary {
+    @apply tw-badge
+         bg-secondary/10
+         text-secondary;
+  }
+
+  /* ── Success ─────────────────────────────────────────── */
+
+  .tw-badge-success {
+    @apply tw-badge
+         bg-green-100
+         text-green-700
+         dark:bg-green-900/40
+         dark:text-green-400;
+  }
+
+  /* ── Warning ─────────────────────────────────────────── */
+
+  .tw-badge-warning {
+    @apply tw-badge
+         bg-yellow-100
+         text-yellow-700
+         dark:bg-yellow-900/40
+         dark:text-yellow-400;
+  }
+
+  /* ── Danger ─────────────────────────────────────────── */
+
+  .tw-badge-danger {
+    @apply tw-badge
+         bg-red-100
+         text-red-700
+         dark:bg-red-900/40
+         dark:text-red-400;
+  }
+
+  /* ── Info ───────────────────────────────────────────── */
+
+  .tw-badge-info {
+    @apply tw-badge
+         bg-sky-100
+         text-sky-700
+         dark:bg-sky-900/40
+         dark:text-sky-400;
+  }
+
+  /* ── Purple ─────────────────────────────────────────── */
+
+  .tw-badge-purple {
+    @apply tw-badge
+         bg-purple-100
+         text-purple-700
+         dark:bg-purple-900/40
+         dark:text-purple-400;
+  }
+
+  /* ── Pink ───────────────────────────────────────────── */
+
+  .tw-badge-pink {
+    @apply tw-badge
+         bg-pink-100
+         text-pink-700
+         dark:bg-pink-900/40
+         dark:text-pink-400;
+  }
+
+  /* ── Orange ─────────────────────────────────────────── */
+
+  .tw-badge-orange {
+    @apply tw-badge
+         bg-orange-100
+         text-orange-700
+         dark:bg-orange-900/40
+         dark:text-orange-400;
+  }
+
+  /* ── Neutral ────────────────────────────────────────── */
+
+  .tw-badge-neutral {
+    @apply tw-badge
+         bg-gray-100
+         text-gray-700
+         dark:bg-gray-800
+         dark:text-gray-300;
+  }
+
+  /* ── Outline Variant ───────────────────────────────── */
+
+  .tw-badge-outline {
+    @apply tw-badge
+         border
+         border-border-light
+         dark:border-border-dark
+         bg-transparent;
+  }
+
+  /* ── Gradient Variant ──────────────────────────────── */
+
+  .tw-badge-gradient {
+    @apply tw-badge
+         bg-gradient-to-r
+         from-primary
+         to-secondary
+         text-white;
+  }
+
+  /* ── Modal ─────────────────────────────────────────── */
+
+  .tw-overlay {
+    @apply fixed
+           inset-0
+           z-50
+           flex
+           items-center
+           justify-center
+           bg-black/60
+           backdrop-blur-sm;
+  }
+
+  .tw-modal {
+    @apply w-full
+           max-w-lg
+           mx-4
+           rounded-2xl
+           border
+           border-border-light
+           dark:border-border-dark
+           bg-card-light
+           dark:bg-card-dark
+           shadow-2xl;
+  }
+
+  .tw-modal-header {
+    @apply px-6
+           py-4
+           border-b
+           border-border-light
+           dark:border-border-dark
+           flex
+           items-center
+           justify-between;
+  }
+
+  .tw-modal-body {
+    @apply p-6;
+  }
+
+  .tw-modal-footer {
+    @apply px-6
+           py-4
+           border-t
+           border-border-light
+           dark:border-border-dark
+           flex
+           justify-end
+           gap-3;
+  }
+
+  /* ── Table ─────────────────────────────────────────── */
+
+  .tw-table-wrapper {
+    @apply overflow-x-auto
+           rounded-2xl
+           border
+           border-border-light
+           dark:border-border-dark;
+  }
+
+  .tw-table {
+    @apply w-full
+           border-collapse;
+  }
+
+  .tw-table thead {
+    @apply bg-slate-100
+           dark:bg-slate-800;
+  }
+
+  .tw-table thead th {
+    @apply px-5
+           py-4
+           text-left
+           text-xs
+           uppercase
+           tracking-wider
+           text-text-muted
+           dark:text-text-darkMuted;
+  }
+
+  .tw-table tbody td {
+    @apply px-5
+           py-4
+           border-t
+           border-border-light
+           dark:border-border-dark;
+  }
+
+  .tw-table tbody tr:hover {
+    @apply bg-slate-50
+           dark:bg-slate-800/50;
+  }
+
+  /* ── Loader ────────────────────────────────────────── */
+
+  .tw-loader-screen {
+    @apply fixed
+           inset-0
+           z-50
+           flex
+           items-center
+           justify-center
+           bg-background-light
+           dark:bg-background-dark;
+  }
+
+  .tw-spinner {
+    @apply w-10
+           h-10
+           rounded-full
+           border-4
+           border-primary
+           border-t-transparent
+           animate-spin;
+  }
+
+  /* ── Empty State ───────────────────────────────────── */
+
+  .tw-empty {
+    @apply py-16
+           text-center
+           text-text-muted
+           dark:text-text-darkMuted;
+  }
+
+  /* ── Divider ───────────────────────────────────── */
+
+  .tw-divider {
+    @apply flex-1 h-px bg-border-light dark:bg-border-dark;
   }
 }
+
+/* ──────────────────────────────────────────────────────────
+   Custom Utilities
+────────────────────────────────────────────────────────── */
 
 @layer utilities {
   .text-gradient {
-    @apply bg-clip-text text-transparent bg-linear-to-r from-primary to-purple-600;
+    background: linear-gradient(to right, #4f46e5, #7c3aed);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
+
   .glass {
-    @apply bg-white/5 backdrop-blur-md;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
   }
 }

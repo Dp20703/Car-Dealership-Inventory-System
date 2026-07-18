@@ -25,41 +25,41 @@ export const AddVehicle = () => {
   };
 
   return (
-    <div className="ls-container p-10 flex flex-col justify-center items-center">
-      <h2 className="ls-section-title mb-6">Add New Vehicle</h2>
-      <form onSubmit={handleSubmit} className="ls-card p-6 max-w-lg">
+    <div className="tw-container p-10 flex flex-col justify-center items-center">
+      <h2 className="tw-section-title mb-6">Add New Vehicle</h2>
+      <form onSubmit={handleSubmit} className="tw-card p-6 max-w-lg">
         <input
-          className="ls-input mb-4"
+          className="tw-input mb-4"
           placeholder="Make"
           onChange={(e) => setFormData({ ...formData, make: e.target.value })}
         />
         <input
-          className="ls-input mb-4"
+          className="tw-input mb-4"
           placeholder="Model"
           onChange={(e) => setFormData({ ...formData, model: e.target.value })}
         />
         <input
-          className="ls-input mb-4"
+          className="tw-input mb-4"
           placeholder="Category"
           onChange={(e) =>
             setFormData({ ...formData, category: e.target.value })
           }
         />
         <input
-          className="ls-input mb-4"
+          className="tw-input mb-4"
           type="number"
           placeholder="Price"
           onChange={(e) => setFormData({ ...formData, price: e.target.value })}
         />
         <input
-          className="ls-input mb-4"
+          className="tw-input mb-4"
           type="number"
           placeholder="Quantity"
           onChange={(e) =>
             setFormData({ ...formData, quantity: e.target.value })
           }
         />
-        <button type="submit" className="ls-btn-primary w-full">
+        <button type="submit" className="tw-btn-primary w-full">
           Add Vehicle
         </button>
       </form>
