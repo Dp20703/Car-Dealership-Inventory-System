@@ -36,3 +36,20 @@ export const updateVehicle = async (id, data) => {
 export const deleteVehicle = async (id) => {
   return await Vehicle.findByIdAndDelete(id);
 };
+
+export const purchaseVehicle = async (id) => {
+  const vehicle = await Vehicle.findById(id);
+  if (!vehicle || vehicle.quantity <= 0)
+    throw new Error("Vehicle out of stock");
+  vehicle.quantity -= 1;
+  await vehicle.save();
+  return { vehicle };
+};
+
+export const restockVehicle = async (id, amount) => {
+  const vehicle = await Vehicle.findById(id);
+  if (!vehicle) throw new Error("Vehicle not found");
+  vehicle.quantity += amount;
+  await vehicle.save();
+  return { vehicle };
+};

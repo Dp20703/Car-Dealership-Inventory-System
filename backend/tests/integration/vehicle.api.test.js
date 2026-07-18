@@ -187,4 +187,55 @@ describe("Vehicle API Endpoints", () => {
       expect(response.body.data.price).toBe(30000);
     });
   });
+
+  describe("Inventory Purchase/Restock Routes", () => {
+    const mockVehicleId = "12345";
+
+    it("should decrease quantity when a user purchases a vehicle", async () => {
+      const token = jwt.sign(
+        { id: "user123", role: "USER" },
+        process.env.JWT_SECRET || "fallback_secret_for_tests",
+      );
+
+      // Create a mock user object with the necessary 'select' chain
+      const mockUser = { _id: "user123", role: "USER" };
+
+      // Arrange: Mock User.findById to return an object with a 'select' method
+      User.findById = jest.fn().mockReturnValue({
+        select: jest.fn().mockResolvedValue(mockUser), // This chain must return the user data
+      });
+
+      // Arrange: Vehicle starts with 5
+      Vehicle.findById = jest.fn().mockResolvedValue({
+        _id: mockVehicleId,
+        quantity: 5,
+        save: jest.fn().mockResolvedValue(),
+      });
+
+      const response = await request(app)
+        .post(`/api/vehicles/${mockVehicleId}/purchase`)
+        .set("Authorization", `Bearer ${token}`);
+
+      expect(response.status).toBe(200);
+      expect(response.body.data.quantity).toBe(4);
+    });
+
+    it("should return 403 if a user tries to restock", async () => {
+      const token = jwt.sign(
+        { id: "user123", role: "USER" },
+        process.env.JWT_SECRET || "fallback_secret_for_tests",
+      );
+
+      // Arrange: Ensure User.findById is mocked to return the standard USER
+      User.findById = jest.fn().mockReturnValue({
+        select: jest.fn().mockResolvedValue({ _id: "user123", role: "USER" }),
+      });
+
+      const response = await request(app)
+        .post(`/api/vehicles/${mockVehicleId}/restock`)
+        .set("Authorization", `Bearer ${token}`);
+
+      expect(response.status).toBe(403); // Middleware should reject non-admins
+    });
+  });
 });

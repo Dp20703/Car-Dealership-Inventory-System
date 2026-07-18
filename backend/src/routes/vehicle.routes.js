@@ -3,6 +3,8 @@ import {
   createVehicle,
   deleteVehicle,
   getVehicles,
+  purchaseVehicle,
+  restockVehicle,
   searchVehicles,
   updateVehicle,
 } from "../controllers/vehicle.controller.js";
@@ -19,10 +21,16 @@ router.get("/", protect, getVehicles);
 // Route: GET /api/vehicles/search (Any Authenticated User)
 router.get("/search", protect, searchVehicles);
 
-// Route: POST /api/vehicles/:id (Admin Only)
+// Route: PUT /api/vehicles/:id (Admin Only)
 router.put("/:id", protect, admin, updateVehicle);
 
-// Route: POST /api/vehicles/:id (Admin Only)
+// Route: DELETE /api/vehicles/:id (Admin Only)
 router.delete("/:id", protect, admin, deleteVehicle);
+
+// Route: POST /api/vehicles/:id/purchase (Any Authenticated User)
+router.post("/:id/purchase", protect, purchaseVehicle);
+
+// Route: POST /api/vehicles/:id/restock (Admin Only)
+router.post("/:id/restock", protect, admin, restockVehicle);
 
 export default router;

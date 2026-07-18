@@ -54,3 +54,24 @@ export const deleteVehicle = async (req, res) => {
     res.status(500).json({ success: false, message: "Server Error" });
   }
 };
+
+export const purchaseVehicle = async (req, res) => {
+  try {
+    const { vehicle } = await vehicleService.purchaseVehicle(req.params.id);
+    res.status(200).json({ success: true, data: vehicle });
+  } catch (error) {
+    res.status(400).json({ success: false, message: error.message });
+  }
+};
+
+export const restockVehicle = async (req, res) => {
+  try {
+    const { vehicle } = await vehicleService.restockVehicle(
+      req.params.id,
+      req.body.amount || 1,
+    );
+    res.status(200).json({ success: true, data: vehicle });
+  } catch (error) {
+    res.status(400).json({ success: false, message: error.message });
+  }
+};
