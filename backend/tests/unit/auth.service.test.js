@@ -1,4 +1,4 @@
-import { registeredUser } from "../../src/services/auth.services.js";
+import { registerUser } from "../../src/services/auth.service.js";
 
 describe("Authentication Service - User Registration", () => {
   // case 1:
@@ -9,12 +9,11 @@ describe("Authentication Service - User Registration", () => {
       password: "SecurePassword123",
       role: "USER",
     };
-    const result = await registeredUser(mockUserData);
+    const result = await registerUser(mockUserData);
 
     expect(result).toBeDefined();
     expect(result.user.name).toBe(mockUserData.name);
     expect(result.user.email).toBe(mockUserData.email);
     expect(result.user.password).not.toBe(mockUserData.password);
   });
-
 });
