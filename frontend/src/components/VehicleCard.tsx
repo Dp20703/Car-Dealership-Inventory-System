@@ -14,29 +14,36 @@ export const VehicleCard = ({
   onEdit,
   onRestock,
   onDelete,
-}: VehicleCardProps) => (
-  <div className="tw-card p-6 tw-card-hover">
-    <h3 className="text-xl font-bold">
-      {vehicle.make} {vehicle.model}
-    </h3>
-    <p className="text-primary font-semibold mt-2">₹{vehicle.price}</p>
-    <p className="text-sm text-text-muted">Stock: {vehicle.quantity}</p>
+}: any) => (
+  <div className="tw-card p-6 tw-card-hover border-t-4 border-t-primary/20">
+    <div className="flex justify-between items-start">
+      <h3 className="text-xl font-bold text-text-light dark:text-text-dark">
+        {vehicle.make} {vehicle.model}
+      </h3>
+      <span className="tw-badge-primary">
+        ${vehicle.price.toLocaleString()}
+      </span>
+    </div>
 
-    <div className="flex gap-2 mt-4">
+    <p className="text-sm text-text-muted mt-4">
+      Available Units: {vehicle.quantity}
+    </p>
+
+    <div className="flex gap-2 mt-6">
       {isAdmin ? (
-        <>
-          <button onClick={onRestock} className="tw-btn-success">
+        <div className="flex gap-5">
+          <button onClick={onRestock} className="tw-btn-success !px-2">
             Restock
           </button>
-          <button onClick={onEdit} className="tw-btn-secondary">
+          <button onClick={onEdit} className="tw-btn-secondary !px-2">
             Edit
           </button>
-          <button onClick={onDelete} className="tw-btn-danger">
+          <button onClick={onDelete} className="tw-btn-danger !px-2">
             Delete
           </button>
-        </>
+        </div>
       ) : (
-        <button onClick={onPurchase} className="tw-btn-primary">
+        <button onClick={onPurchase} className="tw-btn-primary flex-1">
           Purchase
         </button>
       )}
