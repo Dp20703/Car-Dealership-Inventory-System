@@ -1,54 +1,211 @@
-import { useAuth } from "../hooks/useAuth";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useAuth } from "../hooks/useAuth";
+import { useDarkMode } from "../hooks/useDarkMode";
+
+const SunIcon = () => (
+  <svg viewBox="0 0 24 24" fill="none" className="w-5 h-5" aria-hidden="true">
+    <path
+      d="M12 4V2M12 22v-2M4.93 4.93 3.51 3.51M20.49 20.49l-1.42-1.42M4 12H2m20 0h-2M4.93 19.07l-1.42 1.42M20.49 3.51l-1.42 1.42M12 17a5 5 0 1 0 0-10 5 5 0 0 0 0 10Z"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+    />
+  </svg>
+);
+
+const MoonIcon = () => (
+  <svg viewBox="0 0 24 24" fill="none" className="w-5 h-5" aria-hidden="true">
+    <path
+      d="M20.5 14.5A8.5 8.5 0 1 1 9.5 3.5a7 7 0 0 0 11 11Z"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
+const MenuIcon = () => (
+  <svg viewBox="0 0 24 24" fill="none" className="w-6 h-6" aria-hidden="true">
+    <path
+      d="M4 7h16M4 12h16M4 17h16"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+    />
+  </svg>
+);
+
+const CloseIcon = () => (
+  <svg viewBox="0 0 24 24" fill="none" className="w-6 h-6" aria-hidden="true">
+    <path
+      d="M6 6l12 12M18 6 6 18"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+    />
+  </svg>
+);
+
+const PlusIcon = () => (
+  <svg viewBox="0 0 24 24" fill="none" className="w-4 h-4" aria-hidden="true">
+    <path
+      d="M12 5v14M5 12h14"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+    />
+  </svg>
+);
 
 export const Header = () => {
   const { user, logout } = useAuth();
+  const { isDark, toggle } = useDarkMode();
   const navigate = useNavigate();
-  const [isDark, setIsDark] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
-  // Simple Dark Mode Toggle Logic
-  useEffect(() => {
-    if (isDark) document.documentElement.classList.add("dark");
-    else document.documentElement.classList.remove("dark");
-  }, [isDark]);
+  const initials =
+    user?.name
+      ?.split(" ")
+      .map((p) => p[0])
+      .slice(0, 2)
+      .join("")
+      .toUpperCase() || "?";
 
   return (
     <header className="tw-navbar">
       <div className="tw-navbar-inner">
-        <Link to="/" className="text-xl font-bold text-primary">
-          CarDealer
+        <Link
+          to="/"
+          className="flex items-center gap-2 text-xl font-bold text-primary"
+          onClick={() => setMobileOpen(false)}
+        >
+          <span className="flex items-center justify-center w-9 h-9 rounded-xl bg-primary/10 text-lg">
+            🚗
+          </span>
+          <span className="hidden xs:inline">CarDealer</span>
         </Link>
 
-        <nav className="tw-nav-links">
-          <Link
-            to="/"
-            className="tw-nav-link border tw-btn-primary rounded-xl p-[.6em] text-white dark:text-white border-0 "
-          >
+        {/* Desktop nav */}
+        <nav className="hidden md:flex tw-nav-links">
+          <Link to="/" className="tw-nav-link active">
             Dashboard
           </Link>
 
           {user?.role === "ADMIN" && (
             <button
               onClick={() => navigate("/add-vehicle")}
-              className="tw-btn-success "
+              className="tw-btn-success"
             >
+              <PlusIcon />
               Add Vehicle
             </button>
           )}
 
           <button
-            onClick={() => setIsDark(!isDark)}
-            className="tw-btn-secondary"
+            onClick={toggle}
+            aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
+            title={isDark ? "Switch to light mode" : "Switch to dark mode"}
+            className="tw-btn-secondary !px-2.5"
           >
-            {isDark ? "☀️" : "🌙"}
+            {isDark ? <SunIcon /> : <MoonIcon />}
           </button>
+
+          {user && (
+            <div className="flex items-center gap-3 pl-3 ml-1 border-l border-border-light dark:border-border-dark">
+              <div
+                className="flex items-center justify-center w-9 h-9 rounded-full bg-primary text-white text-xs font-semibold shrink-0"
+                title={user.name}
+              >
+                {initials}
+              </div>
+              <div className="leading-tight hidden lg:block">
+                <p className="text-sm font-medium truncate max-w-[8rem]">
+                  {user.name}
+                </p>
+                <p className="text-xs text-text-muted dark:text-text-darkMuted">
+                  {user.role === "ADMIN" ? "Administrator" : "Member"}
+                </p>
+              </div>
+            </div>
+          )}
 
           <button onClick={logout} className="tw-btn-danger">
             Logout
           </button>
         </nav>
+
+        {/* Mobile controls */}
+        <div className="flex items-center gap-2 md:hidden">
+          <button
+            onClick={toggle}
+            aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
+            className="tw-btn-secondary !px-2.5"
+          >
+            {isDark ? <SunIcon /> : <MoonIcon />}
+          </button>
+          <button
+            onClick={() => setMobileOpen((v) => !v)}
+            aria-label={mobileOpen ? "Close menu" : "Open menu"}
+            aria-expanded={mobileOpen}
+            className="tw-btn-secondary !px-2.5"
+          >
+            {mobileOpen ? <CloseIcon /> : <MenuIcon />}
+          </button>
+        </div>
       </div>
+
+      {/* Mobile menu panel */}
+      {mobileOpen && (
+        <div className="md:hidden border-t border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark animate-slide-down">
+          <div className="tw-container py-4 flex flex-col gap-3">
+            {user && (
+              <div className="flex items-center gap-3 pb-3 border-b border-border-light dark:border-border-dark">
+                <div className="flex items-center justify-center w-10 h-10 rounded-full bg-primary text-white text-sm font-semibold shrink-0">
+                  {initials}
+                </div>
+                <div className="leading-tight">
+                  <p className="text-sm font-medium">{user.name}</p>
+                  <p className="text-xs text-text-muted dark:text-text-darkMuted">
+                    {user.role === "ADMIN" ? "Administrator" : "Member"}
+                  </p>
+                </div>
+              </div>
+            )}
+
+            <Link
+              to="/"
+              className="tw-nav-link active py-2"
+              onClick={() => setMobileOpen(false)}
+            >
+              Dashboard
+            </Link>
+
+            {user?.role === "ADMIN" && (
+              <button
+                onClick={() => {
+                  navigate("/add-vehicle");
+                  setMobileOpen(false);
+                }}
+                className="tw-btn-success justify-center"
+              >
+                <PlusIcon />
+                Add Vehicle
+              </button>
+            )}
+
+            <button
+              onClick={() => {
+                logout();
+                setMobileOpen(false);
+              }}
+              className="tw-btn-danger justify-center"
+            >
+              Logout
+            </button>
+          </div>
+        </div>
+      )}
     </header>
   );
 };

@@ -14,6 +14,11 @@ import { EditVehicleModal } from "../components/EditVehicleModal";
 import { RestockModal } from "../components/RestockModal";
 import EmptyState from "../components/EmptyState";
 import { Header } from "../components/Header";
+import { VehicleCardSkeleton } from "../components/VehicleCardSkeleton";
+import {
+  InventoryStats,
+  InventoryStatsSkeleton,
+} from "../components/InventoryStats";
 
 interface Vehicle {
   _id: string;
@@ -30,6 +35,9 @@ export const Dashboard = () => {
     null,
   );
   const [selectedVehicle, setSelectedVehicle] = useState<Vehicle | null>(null);
+  // Distinguish first load (skeleton grid) from a search re-fetch (small inline spinner)
+  const [isLoading, setIsLoading] = useState(true);
+  const [isSearching, setIsSearching] = useState(false);
 
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -45,18 +53,26 @@ export const Dashboard = () => {
 
   useEffect(() => {
     const loadVehicles = async () => {
-      await fetchVehicles();
+      setIsLoading(true);
+      try {
+        await fetchVehicles();
+      } finally {
+        setIsLoading(false);
+      }
     };
 
     void loadVehicles();
   }, []);
 
   const handleSearch = async () => {
+    setIsSearching(true);
     try {
       const data = await searchVehicles({ make: searchQuery });
       setVehicles(data.data || []);
     } catch {
       toast.error("Search failed");
+    } finally {
+      setIsSearching(false);
     }
   };
 
@@ -98,14 +114,39 @@ export const Dashboard = () => {
     <div className="tw-page">
       <Header />
       <main className="tw-container py-10">
-        <h1 className="tw-section-title mb-8">Available Inventory</h1>
+        <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8">
+          <div>
+            <h1 className="tw-section-title">Available Inventory</h1>
+            <p className="tw-section-subtitle">
+              Browse, manage, and track your dealership's vehicle stock.
+            </p>
+          </div>
+        </div>
+
+        {isLoading ? (
+          <InventoryStatsSkeleton />
+        ) : (
+          <InventoryStats vehicles={vehicles} />
+        )}
+
         <SearchBar
           searchQuery={searchQuery}
           setSearchQuery={setSearchQuery}
           onSearch={handleSearch}
+          isLoading={isSearching}
         />
 
-        {vehicles?.length === 0 ? (
+        {isLoading ? (
+          <div
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-10"
+            aria-busy="true"
+            aria-live="polite"
+          >
+            {Array.from({ length: 6 }).map((_, i) => (
+              <VehicleCardSkeleton key={i} isAdmin={user?.role === "ADMIN"} />
+            ))}
+          </div>
+        ) : vehicles?.length === 0 ? (
           <EmptyState
             title="No vehicles available"
             description="Your inventory is empty. Add a vehicle to begin tracking your stock and sales."
@@ -114,7 +155,11 @@ export const Dashboard = () => {
             icon="🚗"
           />
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-10">
+          <div
+            className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-10 transition-opacity duration-200 ${
+              isSearching ? "opacity-60 pointer-events-none" : "opacity-100"
+            }`}
+          >
             {vehicles.map((v) => (
               <VehicleCard
                 key={v._id}

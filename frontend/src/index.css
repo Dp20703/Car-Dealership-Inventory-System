@@ -623,6 +623,59 @@
   .tw-divider {
     @apply flex-1 h-px bg-border-light dark:bg-border-dark;
   }
+
+  /* ── Skeleton ──────────────────────────────────────── */
+
+  .tw-skeleton {
+    @apply relative
+           overflow-hidden
+           rounded-lg
+           bg-slate-200
+           dark:bg-slate-800;
+  }
+
+  .tw-skeleton::after {
+    content: "";
+    @apply absolute inset-0 -translate-x-full;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.35),
+      transparent
+    );
+    animation: tw-shimmer 1.6s infinite;
+  }
+
+  .dark .tw-skeleton::after {
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(148, 163, 184, 0.15),
+      transparent
+    );
+  }
+
+  .tw-skeleton-text {
+    @apply tw-skeleton h-4 rounded-md;
+  }
+
+  .tw-skeleton-badge {
+    @apply tw-skeleton h-6 w-20 rounded-full;
+  }
+
+  .tw-skeleton-circle {
+    @apply tw-skeleton rounded-full;
+  }
+
+  .tw-skeleton-btn {
+    @apply tw-skeleton h-9 rounded-xl;
+  }
+}
+
+@keyframes tw-shimmer {
+  100% {
+    transform: translateX(100%);
+  }
 }
 
 /* ──────────────────────────────────────────────────────────

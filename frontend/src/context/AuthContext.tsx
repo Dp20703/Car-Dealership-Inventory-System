@@ -1,5 +1,5 @@
 import { createContext, type ReactNode, useEffect, useState } from "react";
-import { loginUser, registerUser } from "../api/auth.api";
+import { loginUser, logoutUser, registerUser } from "../api/auth.api";
 import api from "../api/axios";
 
 interface User {
