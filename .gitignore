@@ -42,3 +42,4 @@ Thumbs.db
 
 # Documentation
 *.md
+backend/src/models/Purchase.js
