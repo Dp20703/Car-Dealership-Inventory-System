@@ -1,4 +1,5 @@
 import { jest } from "@jest/globals";
+import "dotenv/config";
 import jwt from "jsonwebtoken";
 import request from "supertest";
 import app from "../../src/app.js";
@@ -144,6 +145,46 @@ describe("Vehicle API Endpoints", () => {
       expect(response.body.success).toBe(true);
       expect(response.body.data.length).toBe(2);
       expect(response.body.data[0].make).toBe("Toyota");
+    });
+  });
+
+  describe("Admin Update/Delete Routes", () => {
+    const mockVehicleId = "12345";
+
+    it("should return 403 if a standard user tries to update a vehicle", async () => {
+      const token = jwt.sign(
+        { id: "admin123", role: "ADMIN" },
+        process.env.JWT_SECRET || "fallback_secret_for_tests", // Add the fallback here
+      );
+
+      const response = await request(app)
+        .put(`/api/vehicles/${mockVehicleId}`)
+        .set("Authorization", `Bearer ${token}`)
+        .send({ price: 30000 });
+
+      expect(response.status).toBe(403);
+    });
+
+    it("should return 200 if an admin successfully updates a vehicle", async () => {
+      const token = jwt.sign(
+        { id: "admin123", role: "ADMIN" },
+        process.env.JWT_SECRET || "fallback_secret_for_tests", // Add the fallback here
+      );
+
+      User.findById = jest.fn().mockReturnValue({
+        select: jest.fn().mockResolvedValue({ _id: "admin123", role: "ADMIN" }),
+      });
+      Vehicle.findByIdAndUpdate = jest
+        .fn()
+        .mockResolvedValue({ _id: mockVehicleId, price: 30000 });
+
+      const response = await request(app)
+        .put(`/api/vehicles/${mockVehicleId}`)
+        .set("Authorization", `Bearer ${token}`)
+        .send({ price: 30000 });
+
+      expect(response.status).toBe(200);
+      expect(response.body.data.price).toBe(30000);
     });
   });
 });

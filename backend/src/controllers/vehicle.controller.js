@@ -36,3 +36,21 @@ export const searchVehicles = async (req, res) => {
     res.status(500).json({ success: false, message: "Server Error" });
   }
 };
+
+export const updateVehicle = async (req, res) => {
+  try {
+    const vehicle = await vehicleService.updateVehicle(req.params.id, req.body);
+    res.status(200).json({ success: true, data: vehicle });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Server Error" });
+  }
+};
+
+export const deleteVehicle = async (req, res) => {
+  try {
+    await vehicleService.deleteVehicle(req.params.id);
+    res.status(200).json({ success: true, message: "Vehicle removed" });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Server Error" });
+  }
+};

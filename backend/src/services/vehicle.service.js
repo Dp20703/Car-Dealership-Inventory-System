@@ -28,3 +28,11 @@ export const searchVehicles = async (query) => {
   const vehicles = await Vehicle.find(filter);
   return { vehicles };
 };
+
+export const updateVehicle = async (id, data) => {
+  return await Vehicle.findByIdAndUpdate(id, data, { new: true });
+};
+
+export const deleteVehicle = async (id) => {
+  return await Vehicle.findByIdAndDelete(id);
+};
