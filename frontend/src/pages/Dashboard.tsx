@@ -1,12 +1,8 @@
 import { useEffect, useState } from "react";
-import {
-  getVehicles,
-  purchaseVehicle,
-  deleteVehicle,
-  restockVehicle,
-} from "../api/vehicle.api";
+import { getVehicles, purchaseVehicle } from "../api/vehicle.api";
 import { useAuth } from "../hooks/useAuth";
 import { toast } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 interface Vehicle {
   _id: string;
@@ -20,6 +16,7 @@ export const Dashboard = () => {
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const { user } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchVehicles();
@@ -40,7 +37,7 @@ export const Dashboard = () => {
     try {
       await purchaseVehicle(id);
       toast.success("Purchase successful!");
-      fetchVehicles(); // Refresh list
+      fetchVehicles();
     } catch (error) {
       toast.error("Purchase failed");
     }
@@ -63,7 +60,7 @@ export const Dashboard = () => {
           <p>The inventory is currently empty.</p>
         </div>
       ) : (
-        <div className="grid grid-cotw-1 md:grid-cotw-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {vehicles.map((v) => (
             <div key={v._id} className="tw-card p-6 tw-card-hover">
               <h3 className="text-xl font-bold">
@@ -82,9 +79,7 @@ export const Dashboard = () => {
                 {user?.role === "ADMIN" && (
                   <>
                     <button
-                      onClick={() => {
-                        /* navigate to edit */
-                      }}
+                      onClick={() => navigate(`/edit-vehicle/${v._id}`)}
                       className="tw-btn-secondary"
                     >
                       Edit
