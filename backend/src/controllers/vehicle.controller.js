@@ -27,3 +27,12 @@ export const getVehicles = async (req, res) => {
     res.status(500).json({ success: false, message: "Server Error" });
   }
 };
+
+export const searchVehicles = async (req, res) => {
+  try {
+    const { vehicles } = await vehicleService.searchVehicles(req.query);
+    res.status(200).json({ success: true, data: vehicles });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Server Error" });
+  }
+};

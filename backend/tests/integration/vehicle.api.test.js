@@ -113,4 +113,37 @@ describe("Vehicle API Endpoints", () => {
       expect(response.body.data[0].make).toBe("Toyota");
     });
   });
+
+  describe("GET /api/vehicles/search", () => {
+    it("should return filtered vehicles based on query parameters", async () => {
+      // 1. Arrange: Generate token and mock data
+      const token = jwt.sign(
+        { id: "user123", role: "USER" },
+        process.env.JWT_SECRET || "fallback_secret_for_tests",
+      );
+
+      User.findById = jest.fn().mockReturnValue({
+        select: jest.fn().mockResolvedValue({ _id: "user123", role: "USER" }),
+      });
+
+      const mockVehicles = [
+        { make: "Toyota", model: "Camry", category: "Sedan", price: 25000 },
+        { make: "Toyota", model: "Corolla", category: "Sedan", price: 20000 },
+      ];
+
+      // Mock Vehicle.find to handle filtering
+      Vehicle.find = jest.fn().mockResolvedValue(mockVehicles);
+
+      // 2. Act: Request with query params
+      const response = await request(app)
+        .get("/api/vehicles/search?make=Toyota")
+        .set("Authorization", `Bearer ${token}`);
+
+      // 3. Assert
+      expect(response.status).toBe(200);
+      expect(response.body.success).toBe(true);
+      expect(response.body.data.length).toBe(2);
+      expect(response.body.data[0].make).toBe("Toyota");
+    });
+  });
 });

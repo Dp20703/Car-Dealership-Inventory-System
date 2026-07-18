@@ -16,3 +16,15 @@ export const getVehicles = async () => {
   const vehicles = await Vehicle.find({});
   return { vehicles };
 };
+
+export const searchVehicles = async (query) => {
+  // Build a query object dynamically based on provided filters
+  const filter = {};
+  if (query.make) filter.make = query.make;
+  if (query.model) filter.model = query.model;
+  if (query.category) filter.category = query.category;
+  if (query.price) filter.price = { $lte: query.price }; // Finds vehicles up to this price
+
+  const vehicles = await Vehicle.find(filter);
+  return { vehicles };
+};
