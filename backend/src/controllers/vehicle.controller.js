@@ -69,7 +69,7 @@ export const restockVehicle = async (req, res) => {
   try {
     const { vehicle } = await vehicleService.restockVehicle(
       req.params.id,
-      req.body.amount || 1,
+      req.body.quantity || 1,
     );
     res.status(200).json({ success: true, data: vehicle });
   } catch (error) {

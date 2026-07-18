@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import {
+  deleteVehicle,
   getVehicles,
   purchaseVehicle,
   searchVehicles,
@@ -9,6 +10,8 @@ import {
 import { SearchBar } from "../components/SearchBar";
 import { VehicleCard } from "../components/VehicleCard";
 import { useAuth } from "../hooks/useAuth";
+import { EditVehicleModal } from "../components/EditVehicleModal";
+import { RestockModal } from "../components/RestockModal";
 
 interface Vehicle {
   _id: string;
@@ -22,6 +25,10 @@ export const Dashboard = () => {
   const [vehicles, setVehicles] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+  const [activeModal, setActiveModal] = useState<"restock" | "edit" | null>(
+    null,
+  );
+  const [selectedVehicle, setSelectedVehicle] = useState<any>(null);
 
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -64,6 +71,28 @@ export const Dashboard = () => {
     }
   };
 
+  const handleDelete = async (id: string) => {
+    if (window.confirm("Are you sure you want to delete this vehicle?")) {
+      try {
+        await deleteVehicle(id);
+        toast.success("Vehicle deleted successfully!");
+        fetchVehicles(); // Refresh the list
+      } catch (error) {
+        toast.error("Failed to delete vehicle");
+      }
+    }
+  };
+
+  const openEditModal = (vehicle: any) => {
+    setSelectedVehicle(vehicle);
+    setActiveModal("edit");
+  };
+
+  const openRestockModal = (vehicle: any) => {
+    setSelectedVehicle(vehicle);
+    setActiveModal("restock");
+  };
+
   return (
     <div className="tw-container py-10">
       <h1 className="tw-section-title mb-8">Available Inventory</h1>
@@ -83,9 +112,28 @@ export const Dashboard = () => {
               vehicle={v}
               isAdmin={user?.role === "ADMIN"}
               onPurchase={() => handlePurchase(v._id)}
+              onEdit={() => openEditModal(v)}
+              onRestock={() => openRestockModal(v)}
+              onDelete={() => handleDelete(v._id)}
             />
           ))}
         </div>
+      )}
+      {activeModal === "edit" && selectedVehicle && (
+        <EditVehicleModal
+          isOpen={true}
+          onClose={() => setActiveModal(null)}
+          vehicle={selectedVehicle}
+          onUpdate={fetchVehicles}
+        />
+      )}
+      {activeModal === "restock" && selectedVehicle && (
+        <RestockModal
+          isOpen={true}
+          onClose={() => setActiveModal(null)}
+          vehicle={selectedVehicle}
+          onUpdate={fetchVehicles}
+        />
       )}
     </div>
   );

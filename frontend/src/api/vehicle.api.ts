@@ -22,6 +22,7 @@ export const createVehicle = async (vehicleData: any) => {
 // Update an existing vehicle (Admin only)
 export const updateVehicle = async (id: string, vehicleData: any) => {
   const { data } = await api.patch(`/vehicles/${id}`, vehicleData);
+  console.log("Update vehicle data:", data);
   return data;
 };
 
@@ -33,7 +34,9 @@ export const deleteVehicle = async (id: string) => {
 
 // Restock a vehicle (Admin only)
 export const restockVehicle = async (id: string, quantity: number) => {
+  console.log("quanity", quantity);
   const { data } = await api.post(`/vehicles/${id}/restock`, { quantity });
+  console.log("restock data:", data);
   return data;
 };
 
@@ -41,5 +44,5 @@ export const restockVehicle = async (id: string, quantity: number) => {
 export const purchaseVehicle = async (id: string) => {
   const { data } = await api.post(`/vehicles/${id}/purchase`);
   console.log("Purcase data:", data);
-  return data.data;
+  return data;
 };
