@@ -47,3 +47,49 @@ describe("Auth API Endpoints", () => {
     });
   });
 });
+
+describe("POST /api/auth/login", () => {
+  it("should return 200 and a token on successful login", async () => {
+    // 1. Arrange: Intercept the database call to return a mock user
+    const mockUser = {
+      _id: "mockId123",
+      name: "Test User",
+      email: "test@dealership.com",
+      password: "hashedPassword123", // In a real flow, bcrypt would check this
+      role: "USER",
+    };
+    User.findOne = jest.fn().mockResolvedValue(mockUser);
+
+    // We must also mock bcrypt.compare for the integration test
+    // so it doesn't try to actually compare our fake hash
+    const bcrypt = await import("bcrypt");
+    bcrypt.compare = jest.fn().mockResolvedValue(true);
+
+    // 2. Act: Send the login request
+    const response = await request(app).post("/api/auth/login").send({
+      email: "test@dealership.com",
+      password: "password123",
+    });
+
+    // 3. Assert: Verify the response
+    expect(response.status).toBe(200);
+    expect(response.body.success).toBe(true);
+    expect(response.body.data.token).toBeDefined();
+  });
+
+  it("should return 401 on invalid credentials", async () => {
+    // Arrange: Simulate user not found in the DB
+    User.findOne = jest.fn().mockResolvedValue(null);
+
+    // Act
+    const response = await request(app).post("/api/auth/login").send({
+      email: "ghost@dealership.com",
+      password: "wrongpassword",
+    });
+
+    // Assert
+    expect(response.status).toBe(401);
+    expect(response.body.success).toBe(false);
+    expect(response.body.message).toBe("Invalid credentials");
+  });
+});
