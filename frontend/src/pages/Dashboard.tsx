@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
-import api from "../api/axios";
 import { toast } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+import api from "../api/axios";
+import { useAuth } from "../hooks/useAuth";
 
 interface Vehicle {
   _id: string;
@@ -11,8 +13,12 @@ interface Vehicle {
 }
 
 export const Dashboard = () => {
+  const navigate = useNavigate();
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+
+  const { user } = useAuth();
+  console.log("current user:", user);
 
   useEffect(() => {
     const fetchVehicles = async () => {
@@ -50,17 +56,26 @@ export const Dashboard = () => {
         </div>
       ) : (
         /* Vehicle Grid */
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-5">
           {vehicles.map((v) => (
             <div key={v._id} className="ls-card p-6 ls-card-hover">
               <h3 className="text-xl font-bold">
                 {v.make} {v.model}
               </h3>
-              <p className="text-primary font-semibold mt-2">${v.price}</p>
+              <p className="text-primary font-semibold mt-2">₹{v.price}</p>
               <p className="text-sm text-text-muted">Stock: {v.quantity}</p>
             </div>
           ))}
         </div>
+      )}
+
+      {user?.role === "ADMIN" && (
+        <button
+          onClick={() => navigate("/add-vehicle")}
+          className="ls-btn-primary"
+        >
+          Add Vehicle
+        </button>
       )}
     </div>
   );

@@ -1,7 +1,7 @@
 import { useState } from "react";
-import api from "../api/axios";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import api from "../api/axios";
 
 export const AddVehicle = () => {
   const [formData, setFormData] = useState({
@@ -25,7 +25,7 @@ export const AddVehicle = () => {
   };
 
   return (
-    <div className="ls-container py-10">
+    <div className="ls-container p-10 flex flex-col justify-center items-center">
       <h2 className="ls-section-title mb-6">Add New Vehicle</h2>
       <form onSubmit={handleSubmit} className="ls-card p-6 max-w-lg">
         <input
@@ -37,6 +37,13 @@ export const AddVehicle = () => {
           className="ls-input mb-4"
           placeholder="Model"
           onChange={(e) => setFormData({ ...formData, model: e.target.value })}
+        />
+        <input
+          className="ls-input mb-4"
+          placeholder="Category"
+          onChange={(e) =>
+            setFormData({ ...formData, category: e.target.value })
+          }
         />
         <input
           className="ls-input mb-4"

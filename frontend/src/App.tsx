@@ -5,6 +5,7 @@ import { Login } from "./pages/Login";
 import { Register } from "./pages/Register";
 
 import React from "react";
+import { AddVehicle } from "./pages/AddVehicle";
 
 const App = () => {
   return (
@@ -16,6 +17,14 @@ const App = () => {
         element={
           <ProtectedRoute>
             <Dashboard />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/add-vehicle"
+        element={
+          <ProtectedRoute>
+            <AddVehicle />
           </ProtectedRoute>
         }
       />
