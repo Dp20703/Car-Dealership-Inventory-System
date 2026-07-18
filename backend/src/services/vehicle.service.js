@@ -10,3 +10,9 @@ export const addVehicle = async (vehicleData) => {
   // 3. Return the saved vehicle
   return { vehicle };
 };
+
+export const getVehicles = async () => {
+  // Fetch all vehicles from the database
+  const vehicles = await Vehicle.find({});
+  return { vehicles };
+};

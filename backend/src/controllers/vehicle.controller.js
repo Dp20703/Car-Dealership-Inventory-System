@@ -14,3 +14,16 @@ export const createVehicle = async (req, res) => {
     res.status(400).json({ success: false, message: error.message });
   }
 };
+
+export const getVehicles = async (req, res) => {
+  try {
+    const { vehicles } = await vehicleService.getVehicles();
+
+    res.status(200).json({
+      success: true,
+      data: vehicles,
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Server Error" });
+  }
+};
