@@ -1,4 +1,5 @@
 import { jest } from "@jest/globals";
+import bcrypt from "bcrypt";
 import User from "../../src/models/User.js";
 import { loginUser, registerUser } from "../../src/services/auth.service.js";
 
@@ -47,28 +48,27 @@ describe("Authentication Service - User Registration", () => {
 
 describe("Authentication Service - User Login", () => {
   it("should return a user and token with valid credentials", async () => {
-    // Arrange
+    // 1. Arrange: Generate a REAL hash for our mock user
+    const salt = await bcrypt.genSalt(10);
+    const realHashedPassword = await bcrypt.hash("plainTextPassword123", salt);
+
     const mockUser = {
       _id: "mockUserId123",
       email: "customer@dealership.com",
-      password: "hashedPassword123",
+      password: realHashedPassword, // Use the real hash here!
       role: "USER",
     };
 
     // Simulate finding the user in the database
     User.findOne = jest.fn().mockResolvedValue(mockUser);
 
-    // We will also need to mock bcrypt and jwt in our service later,
-    // but right now we just want to define the expected output.
-
-    // Act
-    // Note: We will pass an unhashed password here, as the user types it in
+    // 2. Act
     const result = await loginUser({
       email: "customer@dealership.com",
       password: "plainTextPassword123",
     });
 
-    // Assert
+    // 3. Assert
     expect(result.token).toBeDefined(); // Expect a JWT token
     expect(result.user.email).toBe(mockUser.email);
   });
@@ -79,6 +79,6 @@ describe("Authentication Service - User Login", () => {
 
     await expect(
       loginUser({ email: "ghost@dealership.com", password: "password123" }),
-    ).rejects.toThrow("Invalid credentials"); // Best practice: Don't specify if email or password was wrong
+    ).rejects.toThrow("Invalid credentials");
   });
 });
