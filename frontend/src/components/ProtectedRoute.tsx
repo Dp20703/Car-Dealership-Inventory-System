@@ -4,7 +4,7 @@ import type { JSX } from "react";
 
 export const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
   const { user, isLoading } = useAuth();
-
+  console.log("user:", user);
   if (isLoading)
     return (
       <div className="ls-loader-screen">

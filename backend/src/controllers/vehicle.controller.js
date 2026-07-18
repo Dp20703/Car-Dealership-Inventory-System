@@ -17,6 +17,7 @@ export const createVehicle = async (req, res) => {
 
 export const getVehicles = async (req, res) => {
   try {
+    console.log("Getvehicle contoller");
     const { vehicles } = await vehicleService.getVehicles();
 
     res.status(200).json({

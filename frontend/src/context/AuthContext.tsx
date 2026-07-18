@@ -48,8 +48,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           setUser(data);
         } catch (error) {
           // If token is invalid/expired, clear it
-          console.error("Session expired or invalid token");
-          logout();
+          console.error("Session expired or invalid token", error);
         }
       }
       setIsLoading(false);
@@ -79,7 +78,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const login = async (credentials: { email: string; password: string }) => {
     try {
       setIsLoading(true);
-      const { user: userData, token: userToken } = await loginUser(credentials);
+      const data = await loginUser(credentials);
+      const userData = data.data;
+      const userToken = userData.token;
+      console.log("data", userToken);
       setUser(userData);
       setToken(userToken);
       localStorage.setItem("token", userToken);

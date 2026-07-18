@@ -11,10 +11,12 @@ export const Login = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await login(formData);
+      const res = await login(formData);
+      console.log("res");
       toast.success("Welcome back!");
       navigate("/");
     } catch (error) {
+      console.log("error:", error);
       toast.error("Login failed");
     }
   };

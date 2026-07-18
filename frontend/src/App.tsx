@@ -1,23 +1,26 @@
 import { Route, Routes } from "react-router-dom";
+import { ProtectedRoute } from "./components/ProtectedRoute";
+import { Dashboard } from "./pages/Dashboard";
 import { Login } from "./pages/Login";
 import { Register } from "./pages/Register";
 
-function App() {
+import React from "react";
+
+const App = () => {
   return (
-    <div className="ls-page">
-      <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        {/* Dashboard route will go here later */}
-        <Route
-          path="/"
-          element={
-            <div className="p-10 text-center">Dashboard (Coming Soon)</div>
-          }
-        />
-      </Routes>
-    </div>
+    <Routes>
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+      <Route
+        path="/"
+        element={
+          <ProtectedRoute>
+            <Dashboard />
+          </ProtectedRoute>
+        }
+      />
+    </Routes>
   );
-}
+};
 
 export default App;

@@ -18,6 +18,7 @@ export const loginUser = async (credentials: {
   password: string;
 }) => {
   const { data } = await api.post("/auth/login", credentials);
+  console.log("data:", data);
   return data;
 };
 
