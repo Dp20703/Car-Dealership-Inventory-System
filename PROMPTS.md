@@ -597,3 +597,51 @@ _Guided the generation of the final test coverage report using `npm run test:cov
 **User:** `1.GET /api/vehicles/search: Search for vehicles by make, model, category, or price range. [backend] 2.Functionality to search and filter vehicles. [frontend] this two things we missed the search is there but it is search by only make.`
 **Gemini Response:**
 _Refactored the backend `searchVehicles` service to support dynamic filtering via Mongoose queries. Updated the frontend `SearchBar` and API service to pass multiple query parameters (make, model, category, price) to the backend._
+
+### Prompt 81
+
+[cite_start]**User:** `SHOUD I STILL TO ADD SCRRENSHOTS NOW TO README FILE ?` [cite: 2766]
+**Gemini Response:**
+_Confirmed that screenshots are a mandatory deliverable for the assessment. [cite_start]Provided instructions on how to capture key application views (Dashboard, Modals, Auth) and link them in the README.md using Markdown._ [cite: 2767, 2768, 2771]
+
+### Prompt 82
+
+**User:** `If i wanted to deploy this what changes should i make` [cite: 2779]
+**Gemini Response:**
+_Outlined the transition to a production environment. [cite_start]Detailed backend requirements (helmet for security, strict CORS origins, MongoDB Atlas) and frontend Vite build processes (environment variables, dist folder hosting on platforms like Vercel/Render)._ [cite: 2781, 2784, 2789]
+
+### Prompt 83
+
+[cite_start]**User:** `render is showing this in log: OPTIONS /api/auth/login 204 0.319 ms - 0...` [cite: 2801]
+**Gemini Response:**
+_Diagnosed the browser CORS preflight behavior on Render. Provided a hardened backend CORS configuration and troubleshooting steps for ensuring the frontend `VITE_API_URL` correctly targets the live backend to allow the subsequent POST requests through._ [cite: 2801, 2806, 2807]
+
+### Prompt 84
+
+[cite_start]**User:** `create the index.html as per our project :` [cite: 2820]
+**Gemini Response:**
+[cite_start]_Generated the Vite-specific `index.html` entry point for the React application, including optimized font preloading and the root mounting div._ [cite: 2820, 2824]
+
+### Prompt 85
+
+[cite_start]**User:** `i wanted to add svg icon in this project related to project theme` [cite: 2828]
+**Gemini Response:**
+_Recommended `lucide-react` for theme-aware, consistent SVG icons. [cite_start]Provided the setup for a centralized `Icons.tsx` component to cleanly integrate scalable SVGs into the application UI._ [cite: 2828, 2831, 2836]
+
+### Prompt 86
+
+**User:** `for url` [cite: 2840]
+**Gemini Response:**
+_Provided the Markdown formatting to prominently display the Live Demo URL in the `README.md` file so reviewers can easily access the deployed application._ [cite: 2840, 2841]
+
+### Prompt 87
+
+**User:** `I am taking about the favicon icon` and `commit?` [cite: 2853, 2865]
+**Gemini Response:**
+_Provided the SVG code for a custom car dealership favicon and instructions to place it in the `public` folder to replace the default Vite logo. [cite_start]Included the corresponding git commit log._ [cite: 2855, 2859, 2866]
+
+### Prompt 88
+
+[cite_start]**User:** `i think vite.vercel config file is missing` [cite: 2867]
+**Gemini Response:**
+_Supplied the `vercel.json` configuration file with routing rewrite rules. This ensures that Vercel routes all client-side requests to `index.html`, preventing 404 errors when refreshing the React SPA on non-root URLs._ [cite: 2868, 2869, 2871]

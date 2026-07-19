@@ -6,6 +6,15 @@ Staff can browse, search, and filter the lot; admins can add, edit, restock, and
 
 ---
 
+## Live Demo
+
+- **Frontend:** [car-dealership-inventory-system-pearl.vercel.app](https://car-dealership-inventory-system-pearl.vercel.app/)
+- **Backend API:** [car-dealership-inventory-system-n3ru.onrender.com](https://car-dealership-inventory-system-n3ru.onrender.com)
+
+> Note: the backend is hosted on Render's free tier, so it may take up to ~50 seconds to spin up on the first request after a period of inactivity.
+
+---
+
 ## Highlights
 
 - **Test-driven backend** — Jest + Supertest, with a strict controller → service → model separation.
