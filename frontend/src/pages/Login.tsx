@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { type AxiosError } from "axios";
 import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthLayout } from "../components/AuthLayout";
@@ -19,8 +20,12 @@ export const Login = () => {
       await login(formData);
       toast.success("Welcome back!");
       navigate("/");
-    } catch {
-      toast.error("Login failed. Check your email and password.");
+    } catch (error) {
+      const axiosError = error as AxiosError<{ message?: string }>;
+      const message =
+        axiosError.response?.data?.message ||
+        "Login failed. Check your email and password.";
+      toast.error(message);
     } finally {
       setIsSubmitting(false);
     }

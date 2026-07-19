@@ -28,7 +28,9 @@ const StatCard = ({
       {label === "Low stock" && "⚠️"}
     </div>
     <div>
-      <p className="text-2xl font-bold leading-tight">{value}</p>
+      <p className="text-2xl font-mono font-semibold tabular-nums leading-tight">
+        {value}
+      </p>
       <p className="text-sm text-text-muted dark:text-text-darkMuted">
         {label}
       </p>
@@ -45,11 +47,7 @@ export const InventoryStats = ({ vehicles }: InventoryStatsProps) => {
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
-      <StatCard
-        label="Listings"
-        value={totalListings}
-        accent="bg-primary/10"
-      />
+      <StatCard label="Listings" value={totalListings} accent="bg-primary/10" />
       <StatCard
         label="Units in stock"
         value={totalUnits}

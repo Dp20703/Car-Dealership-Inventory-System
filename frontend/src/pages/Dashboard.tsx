@@ -7,18 +7,18 @@ import {
   purchaseVehicle,
   searchVehicles,
 } from "../api/vehicle.api";
-import { SearchBar } from "../components/SearchBar";
-import { VehicleCard } from "../components/VehicleCard";
-import { useAuth } from "../hooks/useAuth";
 import { EditVehicleModal } from "../components/EditVehicleModal";
-import { RestockModal } from "../components/RestockModal";
 import EmptyState from "../components/EmptyState";
 import { Header } from "../components/Header";
-import { VehicleCardSkeleton } from "../components/VehicleCardSkeleton";
 import {
   InventoryStats,
   InventoryStatsSkeleton,
 } from "../components/InventoryStats";
+import { RestockModal } from "../components/RestockModal";
+import { SearchBar } from "../components/SearchBar";
+import { VehicleCard } from "../components/VehicleCard";
+import { VehicleCardSkeleton } from "../components/VehicleCardSkeleton";
+import { useAuth } from "../hooks/useAuth";
 
 interface Vehicle {
   _id: string;
@@ -116,7 +116,8 @@ export const Dashboard = () => {
       <main className="tw-container py-10">
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8">
           <div>
-            <h1 className="tw-section-title">Available Inventory</h1>
+            <span className="tw-eyebrow">Inventory</span>
+            <h1 className="tw-section-title mt-1">Available Stock</h1>
             <p className="tw-section-subtitle">
               Browse, manage, and track your dealership's vehicle stock.
             </p>
@@ -148,8 +149,8 @@ export const Dashboard = () => {
           </div>
         ) : vehicles?.length === 0 ? (
           <EmptyState
-            title="No vehicles available"
-            description="Your inventory is empty. Add a vehicle to begin tracking your stock and sales."
+            title="No vehicles on the lot"
+            description="Your inventory is empty. Add a vehicle to begin tracking stock and sales."
             actionLabel="Add vehicle"
             onAction={() => navigate("/add-vehicle")}
             icon="🚗"

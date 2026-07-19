@@ -21,7 +21,9 @@ export const createVehicle = async (vehicleData: any) => {
 
 // Update an existing vehicle (Admin only)
 export const updateVehicle = async (id: string, vehicleData: any) => {
+  console.log("vehical data:", vehicleData);
   const { data } = await api.put(`/vehicles/${id}`, vehicleData);
+  console.log("Update vehicle data:", data);
   return data;
 };
 

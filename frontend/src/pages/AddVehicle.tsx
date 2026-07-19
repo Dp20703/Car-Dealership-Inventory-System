@@ -44,7 +44,8 @@ export const AddVehicle = () => {
           ← Back to inventory
         </Link>
 
-        <h1 className="tw-section-title mb-1">Add New Vehicle</h1>
+        <span className="tw-eyebrow">New Listing</span>
+        <h1 className="tw-section-title mt-1 mb-1">Add Vehicle</h1>
         <p className="tw-section-subtitle mb-8">
           Add a new vehicle listing to your dealership inventory.
         </p>

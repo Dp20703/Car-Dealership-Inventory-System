@@ -9,18 +9,35 @@ export default {
       ───────────────────────────────────────────── */
 
       colors: {
-        /* Brand */
+        /* Brand — showroom navy + dealer-tag amber (not generic SaaS indigo) */
 
         primary: {
-          DEFAULT: "#4F46E5",
-          dark: "#4338CA",
-          light: "#EEF2FF",
+          DEFAULT: "#2C3E5C",
+          dark: "#1E2C42",
+          light: "#E9EDF3",
         },
 
         secondary: {
-          DEFAULT: "#F59E0B",
-          dark: "#D97706",
-          light: "#FEF3C7",
+          DEFAULT: "#E8A33D",
+          dark: "#C9821F",
+          light: "#FDF1DC",
+        },
+
+        /* Signature tag palette — used by the vehicle "stock tag" card */
+
+        ink: {
+          DEFAULT: "#14181F",
+          light: "#232935",
+        },
+
+        chrome: {
+          DEFAULT: "#C9CDD3",
+          dark: "#3A4250",
+        },
+
+        tag: {
+          DEFAULT: "#FBF9F4",
+          dark: "#1B2029",
         },
 
         /* Background System */
@@ -114,7 +131,8 @@ export default {
 
       fontFamily: {
         sans: ["Inter", "system-ui", "sans-serif"],
-        mono: ["'Courier New'", "monospace"],
+        display: ["Oswald", "system-ui", "sans-serif"],
+        mono: ["'JetBrains Mono'", "'Courier New'", "monospace"],
       },
 
       /* ─────────────────────────────────────────────

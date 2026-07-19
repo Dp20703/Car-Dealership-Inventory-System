@@ -48,7 +48,10 @@ export const Modal = ({
         aria-labelledby="modal-title"
       >
         <div className="tw-modal-header">
-          <h3 id="modal-title" className="text-lg font-bold">
+          <h3
+            id="modal-title"
+            className="text-lg font-display font-semibold uppercase tracking-wide"
+          >
             {title}
           </h3>
           <button

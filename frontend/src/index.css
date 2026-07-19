@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Oswald:wght@500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -76,14 +76,14 @@
   /* Selection */
 
   ::selection {
-    background: #4f46e5;
+    background: #2c3e5c;
     color: white;
   }
 
   /* Focus Ring */
 
   :focus-visible {
-    outline: 2px solid #4f46e5;
+    outline: 2px solid #2c3e5c;
     outline-offset: 2px;
   }
 
@@ -117,9 +117,15 @@
     @apply py-16;
   }
 
+  .tw-eyebrow {
+    @apply inline-flex items-center gap-2
+           text-xs font-semibold uppercase tracking-[0.2em]
+           text-secondary-dark dark:text-secondary;
+  }
+
   .tw-section-title {
     @apply text-3xl md:text-4xl
-           font-bold
+           font-display font-semibold uppercase tracking-wide
            text-text-light
            dark:text-text-dark;
   }
@@ -618,6 +624,68 @@
            dark:text-text-darkMuted;
   }
 
+  /* ── Stock Tag (signature vehicle card) ─────────────── */
+
+  .tw-tag-card {
+    @apply relative
+           bg-tag
+           dark:bg-tag-dark
+           border
+           border-border-light
+           dark:border-border-dark
+           rounded-2xl
+           shadow-soft
+           overflow-hidden
+           transition-all duration-300;
+  }
+
+  .tw-tag-card:hover {
+    @apply -translate-y-1 shadow-lg;
+  }
+
+  .tw-tag-plate {
+    @apply bg-ink
+           dark:bg-ink-light
+           px-5 py-3.5
+           flex items-start justify-between gap-3;
+  }
+
+  .tw-tag-make {
+    @apply font-display font-semibold uppercase tracking-wide
+           text-white
+           leading-tight;
+  }
+
+  .tw-tag-stock-no {
+    @apply font-mono text-[0.65rem] font-semibold tracking-wider
+           text-white/50 whitespace-nowrap pt-0.5;
+  }
+
+  .tw-tag-perforation {
+    @apply relative h-0 border-t-2 border-dashed border-chrome dark:border-chrome-dark;
+  }
+
+  .tw-tag-perforation::before,
+  .tw-tag-perforation::after {
+    content: "";
+    @apply absolute top-1/2 -translate-y-1/2 w-3 h-3 rounded-full
+           bg-background-light dark:bg-background-dark
+           border border-border-light dark:border-border-dark;
+  }
+
+  .tw-tag-perforation::before {
+    left: -0.375rem;
+  }
+
+  .tw-tag-perforation::after {
+    right: -0.375rem;
+  }
+
+  .tw-tag-price {
+    @apply font-mono font-semibold tabular-nums tracking-tight
+           text-text-light dark:text-text-dark;
+  }
+
   /* ── Divider ───────────────────────────────────── */
 
   .tw-divider {
@@ -684,7 +752,7 @@
 
 @layer utilities {
   .text-gradient {
-    background: linear-gradient(to right, #4f46e5, #7c3aed);
+    background: linear-gradient(to right, #2c3e5c, #e8a33d);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }

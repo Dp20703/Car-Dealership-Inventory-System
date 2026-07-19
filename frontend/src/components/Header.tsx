@@ -73,22 +73,25 @@ export const Header = () => {
       .toUpperCase() || "?";
 
   return (
-    <header className="tw-navbar">
+    <header className="sticky top-0 z-50 bg-ink border-b-2 border-secondary">
       <div className="tw-navbar-inner">
         <Link
           to="/"
-          className="flex items-center gap-2 text-xl font-bold text-primary"
+          className="flex items-center gap-2 text-xl font-display font-semibold uppercase tracking-wide text-white"
           onClick={() => setMobileOpen(false)}
         >
-          <span className="flex items-center justify-center w-9 h-9 rounded-xl bg-primary/10 text-lg">
+          <span className="flex items-center justify-center w-9 h-9 rounded-xl bg-secondary/20 text-lg">
             🚗
           </span>
           <span className="hidden xs:inline">CarDealer</span>
         </Link>
 
         {/* Desktop nav */}
-        <nav className="hidden md:flex tw-nav-links">
-          <Link to="/" className="tw-nav-link active">
+        <nav className="hidden md:flex items-center gap-5">
+          <Link
+            to="/"
+            className="text-sm font-medium text-white/70 hover:text-white transition-colors"
+          >
             Dashboard
           </Link>
 
@@ -106,24 +109,24 @@ export const Header = () => {
             onClick={toggle}
             aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
             title={isDark ? "Switch to light mode" : "Switch to dark mode"}
-            className="tw-btn-secondary !px-2.5"
+            className="tw-btn !px-2.5 bg-white/10 hover:bg-white/20 text-white"
           >
             {isDark ? <SunIcon /> : <MoonIcon />}
           </button>
 
           {user && (
-            <div className="flex items-center gap-3 pl-3 ml-1 border-l border-border-light dark:border-border-dark">
+            <div className="flex items-center gap-3 pl-3 ml-1 border-l border-white/15">
               <div
-                className="flex items-center justify-center w-9 h-9 rounded-full bg-primary text-white text-xs font-semibold shrink-0"
+                className="flex items-center justify-center w-9 h-9 rounded-full bg-secondary text-ink text-xs font-bold shrink-0"
                 title={user.name}
               >
                 {initials}
               </div>
               <div className="leading-tight hidden lg:block">
-                <p className="text-sm font-medium truncate max-w-[8rem]">
+                <p className="text-sm font-medium text-white truncate max-w-[8rem]">
                   {user.name}
                 </p>
-                <p className="text-xs text-text-muted dark:text-text-darkMuted">
+                <p className="text-xs text-white/50">
                   {user.role === "ADMIN" ? "Administrator" : "Member"}
                 </p>
               </div>
@@ -140,7 +143,7 @@ export const Header = () => {
           <button
             onClick={toggle}
             aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
-            className="tw-btn-secondary !px-2.5"
+            className="tw-btn !px-2.5 bg-white/10 hover:bg-white/20 text-white"
           >
             {isDark ? <SunIcon /> : <MoonIcon />}
           </button>
@@ -148,7 +151,7 @@ export const Header = () => {
             onClick={() => setMobileOpen((v) => !v)}
             aria-label={mobileOpen ? "Close menu" : "Open menu"}
             aria-expanded={mobileOpen}
-            className="tw-btn-secondary !px-2.5"
+            className="tw-btn !px-2.5 bg-white/10 hover:bg-white/20 text-white"
           >
             {mobileOpen ? <CloseIcon /> : <MenuIcon />}
           </button>
@@ -157,16 +160,16 @@ export const Header = () => {
 
       {/* Mobile menu panel */}
       {mobileOpen && (
-        <div className="md:hidden border-t border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark animate-slide-down">
+        <div className="md:hidden border-t border-white/10 bg-ink-light animate-slide-down">
           <div className="tw-container py-4 flex flex-col gap-3">
             {user && (
-              <div className="flex items-center gap-3 pb-3 border-b border-border-light dark:border-border-dark">
-                <div className="flex items-center justify-center w-10 h-10 rounded-full bg-primary text-white text-sm font-semibold shrink-0">
+              <div className="flex items-center gap-3 pb-3 border-b border-white/10">
+                <div className="flex items-center justify-center w-10 h-10 rounded-full bg-secondary text-ink text-sm font-bold shrink-0">
                   {initials}
                 </div>
                 <div className="leading-tight">
-                  <p className="text-sm font-medium">{user.name}</p>
-                  <p className="text-xs text-text-muted dark:text-text-darkMuted">
+                  <p className="text-sm font-medium text-white">{user.name}</p>
+                  <p className="text-xs text-white/50">
                     {user.role === "ADMIN" ? "Administrator" : "Member"}
                   </p>
                 </div>
@@ -175,7 +178,7 @@ export const Header = () => {
 
             <Link
               to="/"
-              className="tw-nav-link active py-2"
+              className="text-sm font-medium text-white py-2"
               onClick={() => setMobileOpen(false)}
             >
               Dashboard

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { type AxiosError } from "axios";
 import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthLayout } from "../components/AuthLayout";
@@ -23,8 +24,11 @@ export const Register = () => {
       await register(formData);
       toast.success("Registration successful! Please login.");
       navigate("/login");
-    } catch {
-      toast.error("Registration failed");
+    } catch (error) {
+      const axiosError = error as AxiosError<{ message?: string }>;
+      const message =
+        axiosError.response?.data?.message || "Registration failed";
+      toast.error(message);
     } finally {
       setIsSubmitting(false);
     }
@@ -61,7 +65,6 @@ export const Register = () => {
             type={showPassword ? "text" : "password"}
             autoComplete="new-password"
             value={formData.password}
-            placeholder="Enter your password"
             onChange={(e) =>
               setFormData({ ...formData, password: e.target.value })
             }

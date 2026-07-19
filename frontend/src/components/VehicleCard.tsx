@@ -48,13 +48,29 @@ const DeleteIcon = () => (
   </svg>
 );
 
-const stockBadge = (quantity: number) => {
+const stockStatus = (quantity: number) => {
   if (quantity === 0)
-    return { label: "Out of stock", className: "tw-badge-danger" };
+    return {
+      label: "Out of stock",
+      className: "tw-badge-danger",
+      dot: "bg-red-500",
+    };
   if (quantity <= 3)
-    return { label: "Low stock", className: "tw-badge-warning" };
-  return { label: "In stock", className: "tw-badge-success" };
+    return {
+      label: "Low stock",
+      className: "tw-badge-warning",
+      dot: "bg-amber-500",
+    };
+  return {
+    label: "In stock",
+    className: "tw-badge-success",
+    dot: "bg-green-500",
+  };
 };
+
+// Derive a short, stable "stock number" from the record id — reads like a
+// real dealer tag number instead of exposing the raw Mongo _id.
+const stockNumber = (id: string) => id.slice(-6).toUpperCase();
 
 export const VehicleCard = ({
   vehicle,
@@ -64,29 +80,43 @@ export const VehicleCard = ({
   onRestock,
   onDelete,
 }: VehicleCardProps) => {
-  const stock = stockBadge(vehicle.quantity);
+  const status = stockStatus(vehicle.quantity);
 
   return (
-    <div className="tw-card tw-card-hover flex flex-col p-6 border-t-4 border-t-primary/20">
-      <div className="flex justify-between items-start gap-3">
-        <h3 className="text-xl font-bold text-text-light dark:text-text-dark leading-snug">
-          {vehicle.make} {vehicle.model}
+    <div className="tw-tag-card">
+      <div className="tw-tag-plate">
+        <h3 className="tw-tag-make text-lg">
+          {vehicle.make}
+          <br />
+          {vehicle.model}
         </h3>
-        <span className="tw-badge-primary shrink-0">
-          ₹{vehicle.price.toLocaleString()}
-        </span>
+        <span className="tw-tag-stock-no">STK #{stockNumber(vehicle._id)}</span>
       </div>
 
-      <div className="flex items-center gap-2 mt-4">
-        <span className={stock.className}>{stock.label}</span>
-        <span className="text-sm text-text-muted dark:text-text-darkMuted">
-          {vehicle.quantity} unit{vehicle.quantity === 1 ? "" : "s"} available
-        </span>
-      </div>
+      <div className="tw-tag-perforation" />
 
-      <div className="flex gap-2 mt-6 pt-4 border-t border-border-light dark:border-border-dark">
+      <div className="p-5 flex flex-col gap-4">
+        <div className="flex items-center justify-between gap-3">
+          <span className={status.className}>
+            <span className={`w-1.5 h-1.5 rounded-full ${status.dot}`} />
+            {status.label}
+          </span>
+          <span className="text-xs text-text-muted dark:text-text-darkMuted whitespace-nowrap">
+            {vehicle.quantity} unit{vehicle.quantity === 1 ? "" : "s"}
+          </span>
+        </div>
+
+        <div className="flex items-end justify-between border-b-2 border-secondary/60 pb-3">
+          <span className="text-xs uppercase tracking-widest text-text-muted dark:text-text-darkMuted">
+            Price
+          </span>
+          <span className="tw-tag-price text-3xl">
+            ₹{vehicle.price.toLocaleString()}
+          </span>
+        </div>
+
         {isAdmin ? (
-          <div className="grid grid-cols-3 gap-2 w-full">
+          <div className="grid grid-cols-3 gap-2">
             <button
               onClick={onRestock}
               className="tw-btn-success !px-2"
@@ -116,7 +146,7 @@ export const VehicleCard = ({
           <button
             onClick={onPurchase}
             disabled={vehicle.quantity === 0}
-            className="tw-btn-primary flex-1 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="tw-btn-primary w-full disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {vehicle.quantity === 0 ? "Sold Out" : "Purchase"}
           </button>

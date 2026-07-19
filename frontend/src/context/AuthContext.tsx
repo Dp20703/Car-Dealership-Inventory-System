@@ -65,7 +65,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }) => {
     try {
       setIsLoading(true);
-      console.log("contex res:", userData);
       await registerUser(userData);
     } catch (error) {
       throw error;
@@ -81,7 +80,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       const data = await loginUser(credentials);
       const userData = data.data;
       const userToken = userData.token;
-      console.log("data", userToken);
       setUser(userData);
       setToken(userToken);
       localStorage.setItem("token", userToken);

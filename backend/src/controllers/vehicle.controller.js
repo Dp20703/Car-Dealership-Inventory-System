@@ -40,6 +40,7 @@ export const searchVehicles = async (req, res) => {
 
 export const updateVehicle = async (req, res) => {
   try {
+    console.log("udpate :", req.body);
     const vehicle = await vehicleService.updateVehicle(req.params.id, req.body);
     res.status(200).json({ success: true, data: vehicle });
   } catch (error) {

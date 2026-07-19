@@ -11,7 +11,7 @@ export const SearchBar = ({
   onSearch,
   isLoading = false,
 }: SearchBarProps) => (
-  <div className="mb-6 w-1/2 flex flex-col sm:flex-row gap-3 sm:gap-4">
+  <div className="mb-6 flex flex-col sm:flex-row gap-3 sm:gap-4">
     <input
       className="tw-input"
       placeholder="Search by make..."
