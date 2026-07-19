@@ -35,9 +35,12 @@ if (process.env.NODE_ENV === "development") {
 app.use(helmet());
 
 // 2. CORS configuration
-const allowedOrigins = [process.env.CLIENT_URL, "http://localhost:5173"].filter(
-  Boolean,
-);
+const allowedOrigins = [
+  process.env.CLIENT_URL,
+  process.env.CLIENT_URL2,
+  process.env.CLIENT_URL3,
+  "http://localhost:5173",
+].filter(Boolean);
 
 console.log("Allowed origins:", allowedOrigins);
 
