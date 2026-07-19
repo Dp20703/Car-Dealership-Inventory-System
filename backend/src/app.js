@@ -42,8 +42,6 @@ const allowedOrigins = [
   "http://localhost:5173",
 ].filter(Boolean);
 
-console.log("Allowed origins:", allowedOrigins);
-
 const corsOptions = {
   origin: (origin, callback) => {
     // allow requests with no origin (curl, Postman, server-to-server, health checks)

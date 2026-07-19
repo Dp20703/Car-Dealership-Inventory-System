@@ -3,8 +3,6 @@ import * as authService from "../services/auth.service.js";
 
 export const register = async (req, res) => {
   try {
-    console.log("req.body of res:", req.body);
-    // Pass the request body to our tested service layer
     const { user } = await authService.registerUser(req.body);
 
     // Respond with a 201 Created status
