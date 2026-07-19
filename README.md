@@ -149,6 +149,7 @@ Create a `.env` file in `backend/`:
 PORT=5000
 MONGO_URI=your_mongodb_connection_string
 JWT_SECRET=your_jwt_secret
+CLIENT_URL=https://car-dealership-inventory-system-pearl.vercel.app
 ```
 
 ```bash
@@ -165,7 +166,7 @@ npm install
 Create a `.env` file in `frontend/`:
 
 ```env
-VITE_API_URL=http://localhost:5000/api
+VITE_API_URL=https://car-dealership-inventory-system-n3ru.onrender.com
 ```
 
 ```bash
@@ -214,7 +215,7 @@ All routes are prefixed with `/api`. Routes marked **Protected** require a valid
 
 ### Dashboard View
 
-![Dashboard View](./frontend/public/screenshots/dashbord.png)
+![Dashboard View](./frontend/public/screenshots/dashboard.png)
 
 ### Search & Filter
 
