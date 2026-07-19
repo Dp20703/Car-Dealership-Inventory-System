@@ -83,7 +83,7 @@ export const Header = () => {
           <span className="flex items-center justify-center w-9 h-9 rounded-xl bg-secondary/20 text-lg">
             🚗
           </span>
-          <span className="hidden xs:inline">CarDealer</span>
+          <span className="xs:inline">CarDealer</span>
         </Link>
 
         {/* Desktop nav */}

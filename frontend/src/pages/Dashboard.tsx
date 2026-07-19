@@ -6,31 +6,36 @@ import {
   getVehicles,
   purchaseVehicle,
   searchVehicles,
+  type VehicleFilters,
 } from "../api/vehicle.api";
+import { SearchBar } from "../components/SearchBar";
+import { VehicleCard } from "../components/VehicleCard";
+import { useAuth } from "../hooks/useAuth";
 import { EditVehicleModal } from "../components/EditVehicleModal";
+import { RestockModal } from "../components/RestockModal";
 import EmptyState from "../components/EmptyState";
 import { Header } from "../components/Header";
+import { VehicleCardSkeleton } from "../components/VehicleCardSkeleton";
 import {
   InventoryStats,
   InventoryStatsSkeleton,
 } from "../components/InventoryStats";
-import { RestockModal } from "../components/RestockModal";
-import { SearchBar } from "../components/SearchBar";
-import { VehicleCard } from "../components/VehicleCard";
-import { VehicleCardSkeleton } from "../components/VehicleCardSkeleton";
-import { useAuth } from "../hooks/useAuth";
 
 interface Vehicle {
   _id: string;
   make: string;
   model: string;
+  category: string;
   price: number;
   quantity: number;
 }
 
 export const Dashboard = () => {
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);
-  const [searchQuery, setSearchQuery] = useState("");
+  const [filters, setFilters] = useState<VehicleFilters>({});
+  // Populated once from the initial unfiltered load, so the category
+  // dropdown always shows every option even after a search narrows results
+  const [categories, setCategories] = useState<string[]>([]);
   const [activeModal, setActiveModal] = useState<"restock" | "edit" | null>(
     null,
   );
@@ -45,9 +50,12 @@ export const Dashboard = () => {
   const fetchVehicles = async () => {
     try {
       const data = await getVehicles();
-      setVehicles(data.data || []);
+      const list: Vehicle[] = data.data || [];
+      setVehicles(list);
+      return list;
     } catch {
       toast.error("Failed to fetch vehicles");
+      return [];
     }
   };
 
@@ -55,7 +63,8 @@ export const Dashboard = () => {
     const loadVehicles = async () => {
       setIsLoading(true);
       try {
-        await fetchVehicles();
+        const list = await fetchVehicles();
+        setCategories(Array.from(new Set(list.map((v) => v.category))).sort());
       } finally {
         setIsLoading(false);
       }
@@ -67,10 +76,22 @@ export const Dashboard = () => {
   const handleSearch = async () => {
     setIsSearching(true);
     try {
-      const data = await searchVehicles({ make: searchQuery });
+      const data = await searchVehicles(filters);
       setVehicles(data.data || []);
     } catch {
       toast.error("Search failed");
+    } finally {
+      setIsSearching(false);
+    }
+  };
+
+  const handleClearFilters = async () => {
+    setFilters({});
+    setIsSearching(true);
+    try {
+      await fetchVehicles();
+    } catch {
+      toast.error("Failed to reload vehicles");
     } finally {
       setIsSearching(false);
     }
@@ -131,9 +152,11 @@ export const Dashboard = () => {
         )}
 
         <SearchBar
-          searchQuery={searchQuery}
-          setSearchQuery={setSearchQuery}
+          filters={filters}
+          setFilters={setFilters}
+          categories={categories}
           onSearch={handleSearch}
+          onClear={handleClearFilters}
           isLoading={isSearching}
         />
 
@@ -148,13 +171,23 @@ export const Dashboard = () => {
             ))}
           </div>
         ) : vehicles?.length === 0 ? (
-          <EmptyState
-            title="No vehicles on the lot"
-            description="Your inventory is empty. Add a vehicle to begin tracking stock and sales."
-            actionLabel="Add vehicle"
-            onAction={() => navigate("/add-vehicle")}
-            icon="🚗"
-          />
+          Object.values(filters).some((v) => v !== undefined && v !== "") ? (
+            <EmptyState
+              title="No matches found"
+              description="No vehicles match your current filters. Try adjusting or clearing them."
+              actionLabel="Clear filters"
+              onAction={handleClearFilters}
+              icon="🔍"
+            />
+          ) : (
+            <EmptyState
+              title="No vehicles on the lot"
+              description="Your inventory is empty. Add a vehicle to begin tracking stock and sales."
+              actionLabel="Add vehicle"
+              onAction={() => navigate("/add-vehicle")}
+              icon="🚗"
+            />
+          )
         ) : (
           <div
             className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-10 transition-opacity duration-200 ${

@@ -8,6 +8,7 @@ interface Vehicle {
   _id: string;
   make: string;
   model: string;
+  category: string;
   price: number;
   quantity: number;
 }
@@ -28,6 +29,7 @@ export const EditVehicleModal = ({
   const [formData, setFormData] = useState({
     make: "",
     model: "",
+    category: "",
     price: 0,
     quantity: 0,
   });
@@ -39,6 +41,7 @@ export const EditVehicleModal = ({
       setFormData({
         make: vehicle.make,
         model: vehicle.model,
+        category: vehicle.category,
         price: vehicle.price,
         quantity: vehicle.quantity,
       });
@@ -107,6 +110,14 @@ export const EditVehicleModal = ({
           label="Model"
           value={formData.model}
           onChange={(e) => setFormData({ ...formData, model: e.target.value })}
+          required
+        />
+        <FormField
+          label="Category"
+          value={formData.category}
+          onChange={(e) =>
+            setFormData({ ...formData, category: e.target.value })
+          }
           required
         />
         <FormField

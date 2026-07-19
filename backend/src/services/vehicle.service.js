@@ -17,16 +17,20 @@ export const getVehicles = async () => {
   return { vehicles };
 };
 
-export const searchVehicles = async (query) => {
-  // Build a query object dynamically based on provided filters
-  const filter = {};
-  if (query.make) filter.make = query.make;
-  if (query.model) filter.model = query.model;
-  if (query.category) filter.category = query.category;
-  if (query.price) filter.price = { $lte: query.price }; // Finds vehicles up to this price
+export const searchVehicles = async (filters) => {
+  const query = {};
 
-  const vehicles = await Vehicle.find(filter);
-  return { vehicles };
+  if (filters.make) query.make = { $regex: filters.make, $options: "i" };
+  if (filters.model) query.model = { $regex: filters.model, $options: "i" };
+  if (filters.category) query.category = filters.category;
+
+  if (filters.minPrice || filters.maxPrice) {
+    query.price = {};
+    if (filters.minPrice) query.price.$gte = Number(filters.minPrice);
+    if (filters.maxPrice) query.price.$lte = Number(filters.maxPrice);
+  }
+
+  return await Vehicle.find(query);
 };
 
 export const updateVehicle = async (id, data) => {

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { toast } from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
-import api from "../api/axios";
+import { createVehicle } from "../api/vehicle.api";
 import { FormField } from "../components/FormField";
 import { Header } from "../components/Header";
 
@@ -9,6 +9,7 @@ export const AddVehicle = () => {
   const [formData, setFormData] = useState({
     make: "",
     model: "",
+    category: "",
     price: "",
     quantity: "",
   });
@@ -19,7 +20,7 @@ export const AddVehicle = () => {
     e.preventDefault();
     setIsSubmitting(true);
     try {
-      await api.post("/vehicles", {
+      await createVehicle({
         ...formData,
         price: Number(formData.price),
         quantity: Number(formData.quantity),
@@ -71,7 +72,16 @@ export const AddVehicle = () => {
               required
             />
             <FormField
-              label="Price ($)"
+              label="Category"
+              placeholder="e.g. Sedan, SUV, Truck"
+              value={formData.category}
+              onChange={(e) =>
+                setFormData({ ...formData, category: e.target.value })
+              }
+              required
+            />
+            <FormField
+              label="Price (₹)"
               type="number"
               min={0}
               placeholder="e.g. 24000"

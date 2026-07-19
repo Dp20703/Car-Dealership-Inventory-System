@@ -8,6 +8,7 @@ interface Vehicle {
   _id: string;
   make: string;
   model: string;
+  category: string;
   quantity: number;
 }
 

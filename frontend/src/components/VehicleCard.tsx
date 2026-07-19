@@ -2,6 +2,7 @@ interface Vehicle {
   _id: string;
   make: string;
   model: string;
+  category: string;
   price: number;
   quantity: number;
 }
@@ -90,7 +91,11 @@ export const VehicleCard = ({
           <br />
           {vehicle.model}
         </h3>
-        <span className="tw-tag-stock-no">STK #{stockNumber(vehicle._id)}</span>
+        <span className="tw-tag-stock-no text-right">
+          {vehicle.category}
+          <br />
+          STK #{stockNumber(vehicle._id)}
+        </span>
       </div>
 
       <div className="tw-tag-perforation" />
