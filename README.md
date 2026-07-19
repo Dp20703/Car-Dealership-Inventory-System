@@ -87,6 +87,38 @@ Testing
 
 ---
 
+## Application Screenshots
+
+### Dashboard View
+
+![Dashboard View](./frontend/public/screenshots/dashbord.png)
+
+### Add Vehicle View
+
+![Add Vehicle View](./frontend/public/screenshots/add-vehicle.png)
+
+### Edit Vehicle Modal
+
+![Edit Vehicle Modal](./frontend/public/screenshots/edit-vehicle.png)
+
+### Restock Vehicle Modal
+
+![Restock Vehicle Modal](./frontend/public/screenshots/restock-vehicle.png)
+
+### Search & Filter
+
+![Search & Filter](./frontend/public/screenshots/search-filter.png)
+
+### Login Page
+
+![Login Page](./frontend/public/screenshots/login.png)
+
+### Register Page
+
+![Register Page](./frontend/public/screenshots/register.png)
+
+---
+
 ## My AI Usage
 
 - **AI Tool Used:** Gemini
@@ -100,7 +132,7 @@ Testing
 ## Test Report
 
 | File            | Statements     | Branches       | Functions     | Lines          |
-|                 |                |
+| --------------- | -------------- | -------------- | ------------- | -------------- |
 | src             | 90.9% (10/11)  | 100% (2/2)     | 0% (0/1)      | 90.9% (10/11)  |
 | src/controllers | 65.51% (38/58) | 33.33% (2/6)   | 63.63% (7/11) | 65.51% (38/58) |
 | src/middlewares | 81.25% (13/16) | 91.66% (11/12) | 100% (2/2)    | 81.25% (13/16) |

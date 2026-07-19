@@ -39,7 +39,3 @@ Thumbs.db
 *.temp
 *.swp
 *.bak
-
-# Documentation
-PROMPTS.md
-backend/src/models/Purchase.js
