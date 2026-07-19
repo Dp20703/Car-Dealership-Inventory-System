@@ -27,6 +27,7 @@ const App = () => {
           </ProtectedRoute>
         }
       />
+      <Route path="*" element={<Login />} />
     </Routes>
   );
 };
