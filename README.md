@@ -1,89 +1,203 @@
-# Car Dealership Inventory System
+# 🚗 Car Dealership Inventory System
 
-## Project Overview
+A full-stack inventory management platform for a car dealership, built test-first (TDD) with a clean, layered backend and a component-based React frontend.
 
-This is a full-stack Car Dealership Inventory System built using Test-Driven Development (TDD). The application serves as a complete platform for managing vehicle inventory, facilitating secure user authentication, and handling transactions like purchasing and restocking.
-
-Elegant, test-first full-stack app for managing car inventory, sales, and restocking.
-
-Highlights
-
-- Built with TDD (Jest + Supertest) for reliable, well-tested code.
-- Secure authentication using JWT.
-- Clean separation: backend (Node/Express/MongoDB) and frontend (React + Vite + Tailwind).
-
-Key Features
-
-- User registration and login (JWT)
-- Add, view, search, edit, and remove vehicles
-- Purchase flow and inventory adjustments
-- Role-based actions and secure endpoints
-- Comprehensive unit and integration tests
-
-Tech Stack
-
-- Backend: Node.js, Express.js, MongoDB
-- Frontend: React, Tailwind CSS, Vite
-- Testing: Jest, Supertest
-- Auth: JSON Web Tokens (JWT)
-
-Repository Structure (high level)
-\- /backend
-\- .env, package.json
-\- /src: app.js, server.js, config/, controllers/, middlewares/, models/, routes/, services/
-\- /tests: unit/ and integration/
-\- /frontend
-\- package.json, tailwind.config.js, postcss.config.js
-\- /src: api/, components/, context/, hooks/, pages/
-
-Quick Start
-Prerequisites: Node.js v16+, MongoDB (local or Atlas)
-
-Backend
-
-1. cd backend
-2. npm install
-3. create a .env with PORT, MONGO_URI, JWT_SECRET
-4. npm run dev
-
-Frontend
-
-1. cd frontend
-2. npm install
-3. npm run dev
-
-Testing
-
-- From the backend folder run: npm test
-
-### Tech Stack
-
-- **Backend:** Node.js, Express.js, MongoDB
-- **Frontend:** React, Tailwind CSS, Vite
-- **Testing:** Jest, Supertest
-- **Authentication:** JWT (JSON Web Tokens)
+Staff can browse, search, and filter the lot; admins can add, edit, restock, and remove vehicles; everything is guarded behind JWT auth with role-based access.
 
 ---
 
-## Local Setup Instructions
+## Highlights
 
-### Prerequisites
+- **Test-driven backend** — Jest + Supertest, with a strict controller → service → model separation.
+- **JWT authentication** with role-based access (`ADMIN` vs. standard user).
+- **Search & filter** by make, model, category, and price range.
+- **Responsive, dark-mode-aware UI** with persisted theme preference, loading skeletons, and toast feedback on every action.
+- **Clean separation** — `backend` (Node/Express/MongoDB) and `frontend` (React + Vite + TypeScript + Tailwind) are fully independent apps.
 
-- Node.js (v16+)
-- MongoDB running locally or a MongoDB Atlas URI
+---
 
-### Backend Setup
+## Key Features
 
-1. Navigate to the backend directory: `cd backend`
-2. Install dependencies: `npm install`
-3. Create a `.env` file in the root of the backend directory and add your environment variables (PORT, MONGO_URI, JWT_SECRET).
-4. Run the development server: `npm run dev`
+**Auth & Access**
 
-### Frontend Setup
+- Register / login with JWT-based sessions
+- Role-based UI and endpoints (admins can manage inventory; all users can browse and purchase)
+- Persisted session on reload, protected frontend routes
 
-1. Navigate to the frontend directory: `cd frontend`
-2. Install dependencies: `npm install`
-3. Start the Vite development server: `npm run dev`
+**Inventory Management**
+
+- Add, view, edit, and remove vehicles (admin only)
+- Restock existing vehicles (admin only)
+- Purchase flow with automatic stock decrement
+- Search and filter by make, model, category, and min/max price
+
+**Frontend Experience**
+
+- Component-based dashboard (cards, modals, search bar, stats, empty states)
+- Loading skeletons for first load and search re-fetches
+- Dark mode with persisted preference across sessions
+- Toast notifications for every create/update/delete/search action
+
+**Testing**
+
+- Unit and integration test suites for controllers, services, and middleware
+
+---
+
+## Tech Stack
+
+| Layer    | Stack                                  |
+| -------- | -------------------------------------- |
+| Backend  | Node.js, Express.js, MongoDB, Mongoose |
+| Frontend | React, TypeScript, Vite, Tailwind CSS  |
+| Auth     | JSON Web Tokens (JWT)                  |
+| Testing  | Jest, Supertest                        |
+
+---
+
+## Folder Structure
+
+```
+car-dealership-inventory-system/
+├── backend/
+│   ├── .env
+│   ├── package.json
+│   └── src/
+│       ├── app.js
+│       ├── server.js
+│       ├── config/              # DB connection, env config
+│       ├── controllers/
+│       │   ├── auth.controller.js
+│       │   └── vehicle.controller.js
+│       ├── middlewares/
+│       │   └── auth.middleware.js   # protect / admin guards
+│       ├── models/
+│       │   ├── User.js
+│       │   └── Vehicle.js
+│       ├── routes/
+│       │   ├── auth.routes.js
+│       │   └── vehicle.routes.js
+│       ├── services/
+│       │   ├── auth.service.js
+│       │   └── vehicle.service.js
+│       └── tests/
+│           ├── unit/
+│           └── integration/
+│
+└── frontend/
+    ├── package.json
+    ├── tailwind.config.js
+    ├── postcss.config.js
+    └── src/
+        ├── main.tsx
+        ├── App.tsx
+        ├── index.css
+        ├── api/
+        │   ├── axios.ts          # shared axios instance + auth header interceptor
+        │   ├── auth.api.ts
+        │   └── vehicle.api.ts
+        ├── components/
+        │   ├── Header.tsx
+        │   ├── SearchBar.tsx
+        │   ├── VehicleCard.tsx
+        │   ├── VehicleCardSkeleton.tsx
+        │   ├── InventoryStats.tsx
+        │   ├── Modal.tsx
+        │   ├── EditVehicleModal.tsx
+        │   ├── RestockModal.tsx
+        │   ├── FormField.tsx
+        │   ├── AuthLayout.tsx
+        │   ├── EmptyState.tsx
+        │   └── ProtectedRoute.tsx
+        ├── context/
+        │   └── AuthContext.tsx
+        ├── hooks/
+        │   ├── useAuth.ts
+        │   └── useDarkMode.ts
+        └── pages/
+            ├── Dashboard.tsx
+            ├── Login.tsx
+            ├── Register.tsx
+            └── AddVehicle.tsx
+```
+
+---
+
+## Quick Start
+
+**Prerequisites:** Node.js v16+, MongoDB (local or Atlas)
+
+### Backend
+
+```bash
+cd backend
+npm install
+```
+
+Create a `.env` file in `backend/`:
+
+```env
+PORT=5000
+MONGO_URI=your_mongodb_connection_string
+JWT_SECRET=your_jwt_secret
+```
+
+```bash
+npm run dev
+```
+
+### Frontend
+
+```bash
+cd frontend
+npm install
+```
+
+Create a `.env` file in `frontend/`:
+
+```env
+VITE_API_URL=http://localhost:5000/api
+```
+
+```bash
+npm run dev
+```
+
+### Testing
+
+```bash
+cd backend
+npm test
+```
+
+---
+
+## API Reference
+
+All routes are prefixed with `/api`. Routes marked **Protected** require a valid JWT; **Admin** routes additionally require an `ADMIN` role.
+
+### Auth — `/api/auth`
+
+| Method | Endpoint         | Access    | Description                        |
+| ------ | ---------------- | --------- | ---------------------------------- |
+| POST   | `/auth/register` | Public    | Register a new user                |
+| POST   | `/auth/login`    | Public    | Log in and receive a JWT           |
+| GET    | `/auth/me`       | Protected | Get the current authenticated user |
+| POST   | `/auth/logout`   | Protected | Log out the current session        |
+
+### Vehicles — `/api/vehicles`
+
+| Method | Endpoint                 | Access    | Description                                                          |
+| ------ | ------------------------ | --------- | -------------------------------------------------------------------- |
+| GET    | `/vehicles`              | Protected | List all vehicles                                                    |
+| GET    | `/vehicles/search`       | Protected | Search/filter by `make`, `model`, `category`, `minPrice`, `maxPrice` |
+| POST   | `/vehicles`              | Admin     | Add a new vehicle                                                    |
+| PUT    | `/vehicles/:id`          | Admin     | Update a vehicle                                                     |
+| DELETE | `/vehicles/:id`          | Admin     | Remove a vehicle                                                     |
+| POST   | `/vehicles/:id/purchase` | Protected | Purchase one unit (decrements stock)                                 |
+| POST   | `/vehicles/:id/restock`  | Admin     | Restock a vehicle by a given quantity                                |
+
+**Vehicle schema:** `make`, `model`, `category`, `price`, `quantity` (all required).
 
 ---
 
@@ -92,6 +206,10 @@ Testing
 ### Dashboard View
 
 ![Dashboard View](./frontend/public/screenshots/dashbord.png)
+
+### Search & Filter
+
+![Search & Filter](./frontend/public/screenshots/search-filter.png)
 
 ### Add Vehicle View
 
@@ -105,10 +223,6 @@ Testing
 
 ![Restock Vehicle Modal](./frontend/public/screenshots/restock-vehicle.png)
 
-### Search & Filter
-
-![Search & Filter](./frontend/public/screenshots/search-filter.png)
-
 ### Login Page
 
 ![Login Page](./frontend/public/screenshots/login.png)
@@ -116,16 +230,6 @@ Testing
 ### Register Page
 
 ![Register Page](./frontend/public/screenshots/register.png)
-
----
-
-## My AI Usage
-
-- **AI Tool Used:** Gemini
-- **How it was used:** \* I collaborated with Gemini to break down the assignment requirements and map out the technical strategy.
-    - Gemini assisted in designing the initial backend folder structure to strict clean architecture and TDD standards.
-    - I used Gemini to generate the initial project boilerplate, including this README and the first failing unit tests.
-- **Reflection:** Using an AI assistant acted like having a senior mechanic in the bay with me; it helped organize my toolkit and set up a reliable assembly line (TDD) before I started writing the core business logic.
 
 ---
 
@@ -139,14 +243,30 @@ Testing
 | src/routes      | 100% (13/13)   | 100% (0/0)     | 100% (0/0)    | 100% (13/13)   |
 | src/services    | 77.35% (41/53) | 63.63% (14/22) | 77.77% (7/9)  | 83.33% (40/48) |
 
-Contributing
+---
 
-- PRs welcome. Focus on tests-first changes and clear, small commits.
+## My AI Usage
 
-License
+**AI Tool Used:** Gemini
 
-- MIT
+**How it was used:**
 
-Contact
+- Collaborated with Gemini to break down the assignment requirements and map out the technical strategy.
+- Used Gemini to design the initial backend folder structure around strict clean-architecture and TDD standards.
+- Used Gemini to generate the initial project boilerplate, including this README and the first failing unit tests.
 
-- Project author: Darshan
+**Reflection:** Using an AI assistant acted like having a senior mechanic in the bay with me — it helped organize my toolkit and set up a reliable assembly line (TDD) before I started writing the core business logic.
+
+---
+
+## Contributing
+
+PRs welcome. Please keep changes test-first, and favor small, clearly scoped commits.
+
+## License
+
+MIT
+
+## Contact
+
+Project author: **Darshan**

@@ -1,13 +1,29 @@
 import cors from "cors";
 import express from "express";
+import { rateLimit } from "express-rate-limit";
+import helmet from "helmet";
 import morgan from "morgan";
 import authRoutes from "./routes/auth.routes.js";
 import vehicleRoutes from "./routes/vehicle.routes.js";
 
 const app = express();
 
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 100,
+  message: {
+    success: false,
+    message: "Too many requests. Please try again later.",
+  },
+});
+
+app.use(limiter);
+
 // 1. Logger first so you can see all incoming requests (including OPTIONS)
-app.use(morgan("dev"));
+if (process.env.NODE_ENV === "development") {
+  app.use(morgan("dev"));
+}
+app.use(helmet());
 
 // 2. CORS configuration
 const corsOptions = {
