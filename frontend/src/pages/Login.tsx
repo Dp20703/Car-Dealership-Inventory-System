@@ -89,7 +89,7 @@ export const Login = () => {
         Don't have an account?{" "}
         <Link
           to="/register"
-          className="text-primary font-medium hover:underline"
+          className="dark:text-primary-light text-primary-dark font-medium hover:underline"
         >
           Create one
         </Link>

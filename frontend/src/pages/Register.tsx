@@ -65,6 +65,7 @@ export const Register = () => {
             type={showPassword ? "text" : "password"}
             autoComplete="new-password"
             value={formData.password}
+            placeholder="Enter your password"
             onChange={(e) =>
               setFormData({ ...formData, password: e.target.value })
             }
@@ -99,7 +100,10 @@ export const Register = () => {
 
       <p className="text-sm text-text-muted dark:text-text-darkMuted text-center mt-6">
         Already have an account?{" "}
-        <Link to="/login" className="text-primary font-medium hover:underline">
+        <Link
+          to="/login"
+          className="dark:text-primary-light text-primary-dark font-medium hover:underline"
+        >
           Sign in
         </Link>
       </p>
