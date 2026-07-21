@@ -150,6 +150,10 @@ PORT=5000
 MONGO_URI=your_mongodb_connection_string
 JWT_SECRET=your_jwt_secret
 CLIENT_URL=https://car-dealership-inventory-system-pearl.vercel.app
+
+# admin
+ADMIN_EMAIL=admin@ac.com
+ADMIN_PASSWORD=admin@1234
 ```
 
 ```bash
